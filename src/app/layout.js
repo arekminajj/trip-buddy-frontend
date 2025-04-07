@@ -22,9 +22,17 @@ export default function RootLayout({ children }) {
           {/* Lewa strona - logo + kafelki */}
           <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
             {/* Logo + nazwa */}
-            <div style={{ fontWeight: "bold", fontSize: "20px", display: "flex", alignItems: "center", gap: "8px", color: "black" }}>
+            <Link href="/" style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              fontWeight: "bold",
+              fontSize: "20px",
+              color: "black",
+              textDecoration: "none"
+            }}>
               <span style={{ fontSize: "24px" }}>🌍</span> TrippBuddy
-            </div>
+            </Link>
 
             {/* Kafelki nawigacyjne */}
             <Link href="/trips" style={navCardStyle}>🌄 My Trips</Link>
