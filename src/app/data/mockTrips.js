@@ -1,0 +1,93 @@
+const mockTrips = [
+  {
+    id: 1,
+    title: "Wypad w Tatry",
+    description: "Weekend w Zakopanem z noclegiem w pensjonacie u góralskiej rodziny",
+    date: "20 - 23 Kwietnia 2025",
+    location: "Tatry",
+    price: 300,
+    image: "/images/tatry.jpg",
+    duration: "2 dni",
+    capacity: 8
+  },
+  {
+    id: 2,
+    title: "Morskie Oko i okolice",
+    description: "Piesza wyprawa do Morskiego Oka z przewodnikiem górskim",
+    date: "2025-07-01",
+    location: "Tatry",
+    price: 150,
+    image: "/images/morskie-oko.jpg",
+    duration: "1 dzień",
+    capacity: 15
+  },
+  {
+    id: 3,
+    title: "Weekend nad Bałtykiem",
+    description: "Relaks nad morzem w Ustce z degustacją świeżych ryb",
+    date: "2025-08-15",
+    location: "Ustka",
+    price: 450,
+    image: "/images/ustka.jpg",
+    duration: "3 dni",
+    capacity: 6
+  },
+  {
+    id: 4,
+    title: "Zwiedzanie Wrocławia",
+    description: "City break z przewodnikiem po najciekawszych miejscach Wrocławia",
+    date: "2025-05-20",
+    location: "Wrocław",
+    price: 250,
+    image: "/images/wroclaw.jpg",
+    duration: "2 dni",
+    capacity: 10
+  },
+  {
+    id: 5,
+    title: "Spływ Dunajcem",
+    description: "Tradycyjny spływ tratwami przez Pieniński Park Narodowy",
+    date: "2025-07-10",
+    location: "Pieniny",
+    price: 120,
+    image: "/images/dunajec.jpg",
+    duration: "1 dzień",
+    capacity: 12
+  },
+  {
+    id: 6,
+    title: "Warszawa - weekend w stolicy",
+    description: "Zwiedzanie Warszawy z noclegiem w centrum i biletami do muzeów",
+    date: "2025-09-05",
+    location: "Warszawa",
+    price: 380,
+    image: "/images/warszawa.jpg",
+    duration: "2 dni",
+    capacity: 8
+  },
+  {
+    id: 7,
+    title: "Bieszczady dzikie i piękne",
+    description: "Wyprawa w Bieszczady z noclegiem w bacówce i obserwacją żubrów",
+    date: "2025-08-22",
+    location: "Bieszczady",
+    price: 420,
+    image: "/images/bieszczady.jpg",
+    duration: "4 dni",
+    capacity: 5
+  },
+  {
+    id: 8,
+    title: "Kopalnia Soli w Wieliczce",
+    description: "Zwiedzanie podziemnych tras turystycznych z degustacją soli",
+    date: "2025-10-10",
+    location: "Wieliczka",
+    price: 90,
+    image: "/images/wieliczka.jpg",
+    duration: "1 dzień",
+    capacity: 20
+  }
+];
+  
+  export default mockTrips;
+  
