@@ -1,6 +1,5 @@
-// src/app/layout.js
 import './globals.css';
-import Header from './components/Header';
+import HeaderWrapper from './components/HeaderWrapper';
 
 export const metadata = {
   title: "TripBuddy",
@@ -11,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pl">
       <body>
-        <Header />
+        <HeaderWrapper />
         <main style={{ padding: "20px" }}>
           {children}
         </main>
