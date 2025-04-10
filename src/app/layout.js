@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
     <html lang="pl">
       <body>
         <HeaderWrapper />
-        <main style={{ padding: "20px" }}>
+        <main style={{ padding: "20px"}}>
           {children}
         </main>
       </body>

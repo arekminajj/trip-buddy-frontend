@@ -7,12 +7,12 @@ export default function HomePage() {
       <h1 style={{ 
         fontSize: '40px',
         marginBottom: '20px',
-        textAlign: 'center',       /* Wyśrodkowanie tekstu */
-        fontFamily: 'Arial, sans-serif',  /* Zmiana czcionki */
-        fontWeight: 'bold',       /* Pogrubienie */
-        color: '#000',            /* Czarny kolor */
-        textShadow: '1px 1px 2px rgba(0,0,0,0.1)', /* Subtelny cień dla lepszej czytelności */
-        letterSpacing: '0.5px'    /* Lekkie rozstrzelenie liter */
+        textAlign: 'center',
+        fontFamily: 'Arial, sans-serif',
+        fontWeight: 'bold',
+        color: '#000',
+        textShadow: '1px 1px 2px rgba(0,0,0,0.1)',
+        letterSpacing: '0.5px'
         }}>
           Najpopularniejsze podróże - dołącz do wspólnej przygody!
       </h1>

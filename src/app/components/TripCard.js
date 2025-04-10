@@ -1,11 +1,22 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+
 export default function TripCard({ trip }) {
-  const randomParam = Math.floor(Math.random() * 1000);
+  const [randomParam, setRandomParam] = useState(null);
+
+  useEffect(() => {
+    setRandomParam(Math.floor(Math.random() * 1000));
+  }, []);
+
+  if (randomParam === null) return null;
 
   return (
     <div style={{
       width: '100%',
       maxWidth: '600px',
-      height: '530px', // Stała wysokość karty
+      height: '530px',
       margin: '0 auto 32px auto',
       border: '1px solid #ddd',
       borderRadius: '16px',
@@ -16,24 +27,21 @@ export default function TripCard({ trip }) {
       flexDirection: 'column',
       position: 'relative',
     }}>
-      {/* Obrazek - stała wysokość */}
-      <img 
-        src={`https://picsum.photos/600/300?random=${randomParam}`}
-        alt={`Zdjęcie z ${trip.title}`}
-        style={{ 
-          width: '100%',
-          height: '220px', 
-          objectFit: 'cover',
-          flexShrink: 0 // Zapobiega zmianom wysokości
-        }}
-      />
+      <div style={{ width: '100%', height: '220px', position: 'relative' }}>
+        <Image
+          src={`https://picsum.photos/600/300?random=${randomParam}`}
+          alt={`Zdjęcie z ${trip.title}`}
+          fill
+          style={{ objectFit: 'cover' }}
+          sizes="(max-width: 600px) 100vw, 600px"
+        />
+      </div>
 
-      {/* Kontener treści z przewijaniem */}
       <div style={{
         padding: '20px',
         flex: 1,
-        display: 'felx', // Dodaje przewijanie jeśli tekst jest za długi
-        flexDirection: 'column', // Miejsce na przycisk
+        display: 'flex',
+        flexDirection: 'column',
       }}>
         <h2 style={{ 
           marginBottom: '12px', 
@@ -58,7 +66,6 @@ export default function TripCard({ trip }) {
           </p>
         </div>
 
-        {/* Opis z możliwością przewijania */}
         <div style={{ 
           marginTop: '15px',
           lineHeight: '1.5',
@@ -70,7 +77,6 @@ export default function TripCard({ trip }) {
         </div>
       </div>
 
-      {/* Przycisk - stała pozycja na dole */}
       <div style={{
         position: 'absolute',
         bottom: '20px',
@@ -82,7 +88,7 @@ export default function TripCard({ trip }) {
         fontWeight: 'bold',
         cursor: 'pointer',
         border: '2px solid #139c8a',
-        zIndex: 1 // Upewnia się, że przycisk jest na wierzchu
+        zIndex: 1
       }}>
         Zobacz szczegóły
       </div>
