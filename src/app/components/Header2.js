@@ -1,24 +1,47 @@
 "use client";
 
 import Link from "next/link";
-import { MapPinned, UserCircle } from "lucide-react";
+import { MapPinned, UserCircle, Bell } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Header2() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false); // Nowy stan do powiadomień
+  const [notifications, setNotifications] = useState([]); // Tablica z powiadomieniami
   const router = useRouter();
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("loggedIn") === "true";
     setIsLoggedIn(loggedIn);
+
+    // Przykładowe powiadomienia (zamiast tego możesz dodać fetch do API)
+    setNotifications([
+      { id: 1, message: "Nowe zaproszenie do podróży: Tatry", tripId: 1 },
+      { id: 2, message: "Podróż do Ustki – 2 miejsca dostępne", tripId: 3 },
+    ]);
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("loggedIn");
     setIsLoggedIn(false);
     router.push("/");
+  };
+
+  const handleNotificationClick = (id) => {
+    // Obsługuje kliknięcie powiadomienia – np. przekierowanie do strony z podróżą
+    console.log(`Powiadomienie o podróży ${id}`);
+  };
+
+  const handleAcceptInvitation = (id) => {
+    // Logika akceptacji zaproszenia
+    console.log(`Akceptowanie zaproszenia do podróży ${id}`);
+  };
+
+  const handleRejectInvitation = (id) => {
+    // Logika odrzucenia zaproszenia
+    console.log(`Odrzucenie zaproszenia do podróży ${id}`);
   };
 
   const buttonStyle = {
@@ -42,7 +65,7 @@ export default function Header2() {
         padding: "0 20px",
       }}
     >
-      {/* Logo */}
+      {/* =================== Logo =================== */}
       <div
         style={{
           position: "absolute",
@@ -69,7 +92,7 @@ export default function Header2() {
         </Link>
       </div>
 
-      {/* Główne przyciski */}
+      {/* =================== Główne przyciski (nawigacja) =================== */}
       <div
         style={{
           position: "absolute",
@@ -86,12 +109,12 @@ export default function Header2() {
         <Link href="/add" style={buttonStyle}>
           Dodaj ogłoszenie
         </Link>
-        <Link href="/my-trips" style={buttonStyle}>
+        <Link href="/mytrips" style={buttonStyle}>
           Moje podróże
         </Link>
       </div>
 
-      {/* Ikona konta i rozwijane menu */}
+      {/* =================== Ikony powiadomień i konta =================== */}
       <div
         style={{
           position: "absolute",
@@ -102,14 +125,83 @@ export default function Header2() {
       >
         {isLoggedIn ? (
           <div style={{ position: "relative" }}>
+            {/* =================== Ikona powiadomień =================== */}
+            <button
+              onClick={() => setShowNotifications((prev) => !prev)}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "white",
+                marginRight: "400px", // Dodatkowa przestrzeń między ikonami
+              }}
+            >
+              <Bell size={30} />
+            </button>
+
+            {/* =================== Menu powiadomień (rozwijane) =================== */}
+            {showNotifications && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "45px",
+                  right: "300px",
+                  backgroundColor: "white",
+                  border: "1px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "10px",
+                  minWidth: "300px",
+                  overflowY: "auto", // Dodanie przewijania
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  zIndex: 10,
+                }}
+              >
+                {notifications.map((notification) => (
+                  <div key={notification.id} style={{ marginBottom: "10px" }}>
+                    <p>{notification.message}</p>
+                    <button
+                      onClick={() =>
+                        handleAcceptInvitation(notification.tripId)
+                      }
+                      style={{
+                        backgroundColor: "#139c8a",
+                        color: "white",
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                        marginRight: "10px",
+                      }}
+                    >
+                      Akceptuj
+                    </button>
+                    <button
+                      onClick={() =>
+                        handleRejectInvitation(notification.tripId)
+                      }
+                      style={{
+                        backgroundColor: "#f44336",
+                        color: "white",
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Odrzuć
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* =================== Ikona konta i rozwijane menu =================== */}
             <button
               onClick={() => setShowMenu((prev) => !prev)}
               style={{ background: "none", border: "none", cursor: "pointer" }}
             >
-              {/* Możliwość podmiany na <img src="ścieżka/do/avatar.jpg" /> */}
               <UserCircle size={36} color="white" />
             </button>
 
+            {/* =================== Menu konta (rozwijane) =================== */}
             {showMenu && (
               <div
                 style={{
