@@ -1,4 +1,4 @@
-import TripCard from "./components/TripCard";
+import CardWrapper from "./components/CardWrapper";
 import mockTrips from "./data/mockTrips";
 
 export default function HomePage() {
@@ -26,7 +26,7 @@ export default function HomePage() {
         }}
       >
         {mockTrips.map((trip, index) => (
-          <TripCard key={index} trip={trip} />
+          <CardWrapper key={index} trip={trip} /> // Pass trip to CardWrapper
         ))}
       </div>
     </div>

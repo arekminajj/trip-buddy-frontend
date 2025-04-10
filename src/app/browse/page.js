@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import TripCard from "../components/TripCard";
+import TripCard2 from "../components/TripCard2";
 import mockTrips from "../data/mockTrips";
 
 export default function BrowseTripsPage() {
@@ -80,7 +80,7 @@ export default function BrowseTripsPage() {
       >
         {filteredTrips.length > 0 ? (
           filteredTrips.map((trip, index) => (
-            <TripCard key={index} trip={trip} />
+            <TripCard2 key={index} trip={trip} />
           ))
         ) : (
           <p style={{ gridColumn: "1 / -1", textAlign: "center" }}>

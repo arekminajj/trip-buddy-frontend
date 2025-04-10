@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-export default function TripCard({ trip }) {
+export default function TripCard2({ trip }) {
   const [randomParam, setRandomParam] = useState(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function TripCard({ trip }) {
       style={{
         width: "100%",
         maxWidth: "650px",
-        height: "400px",
+        height: "500px",
         margin: "0 auto 32px auto",
         border: "1px solid #ddd",
         borderRadius: "16px",
@@ -83,6 +83,7 @@ export default function TripCard({ trip }) {
           style={{
             flex: 1,
             padding: "16px",
+            borderLeft: "4px solid #139c8a", // Pionowa linia po lewej stronie
             height: "200px",
             fontSize: "14px",
             display: "flex",
@@ -90,8 +91,14 @@ export default function TripCard({ trip }) {
             gap: "7px", // Odstęp między elementami
           }}
         >
-          <p style={{ margin: "40px 0" }}>
+          <p style={{ margin: "8px 0" }}>
             📍 <strong>Lokalizacja:</strong> {trip.location}
+          </p>
+          <p style={{ margin: "8px 0" }}>
+            💰 <strong>Cena:</strong> {trip.price} zł
+          </p>
+          <p style={{ margin: "8px 0" }}>
+            👥 <strong>Uczestnicy:</strong> {trip.capacity} / {trip.capacity}
           </p>
         </div>
       </div>
@@ -99,11 +106,11 @@ export default function TripCard({ trip }) {
       <div
         style={{
           position: "absolute",
-          bottom: "40px",
-          right: "25px",
+          bottom: "30px",
+          right: "48px",
           backgroundColor: "white",
           color: "black",
-          padding: "10px 12px",
+          padding: "10px 20px",
           borderRadius: "8px",
           fontWeight: "bold",
           cursor: "pointer",
@@ -111,7 +118,7 @@ export default function TripCard({ trip }) {
           zIndex: 1,
         }}
       >
-        Zobacz szczegóły
+        Zapisz się
       </div>
     </div>
   );
