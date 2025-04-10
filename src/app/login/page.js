@@ -1,51 +1,55 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const router = useRouter();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (username === 'admin' && password === 'admin') {
-      localStorage.setItem('loggedIn', 'true');
-      setError('');
-      router.push('/');
+    if (username === "admin" && password === "admin") {
+      localStorage.setItem("loggedIn", "true");
+      setError("");
+      router.push("/");
     } else {
-      setError('Nieprawidłowy login lub hasło');
+      setError("Nieprawidłowy login lub hasło");
     }
   };
 
   return (
-    <div style={{ 
-      padding: '20px', 
-      maxWidth: '400px', 
-      margin: '0 auto' 
-    }}>
-      <h2 style={{ 
-        textAlign: 'center',
-        color: 'black',
-        fontSize: '20px'
-      }}>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "400px",
+        margin: "0 auto",
+      }}
+    >
+      <h2
+        style={{
+          textAlign: "center",
+          color: "black",
+          fontSize: "20px",
+        }}
+      >
         Zaloguj się
       </h2>
-      
-      <form 
-        onSubmit={handleLogin} 
-        style={{ 
-          display: 'flex', 
-          flexDirection: 'column',
-          gap: '15px',
-          maxWidth: '400px',
-          margin: '0 auto',
-          padding: '20px'
+
+      <form
+        onSubmit={handleLogin}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+          maxWidth: "400px",
+          margin: "0 auto",
+          padding: "20px",
         }}
       >
         {/* Globalne style dla inputów */}
@@ -65,12 +69,12 @@ export default function LoginPage() {
 
         {/* Pole Nazwa użytkownika */}
         <div>
-          <label 
-            htmlFor="username" 
+          <label
+            htmlFor="username"
             style={{
-              display: 'block',
-              marginBottom: '5px',
-              fontWeight: '500'
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "500",
             }}
           >
             Email
@@ -82,24 +86,24 @@ export default function LoginPage() {
             onChange={(e) => setUsername(e.target.value)}
             required
             style={{
-              width: '100%',
-              padding: '10px 12px',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '16px',
-              boxSizing: 'border-box'
+              width: "100%",
+              padding: "10px 12px",
+              borderRadius: "6px",
+              border: "1px solid #ddd",
+              fontSize: "16px",
+              boxSizing: "border-box",
             }}
           />
         </div>
 
         {/* Pole Hasło */}
         <div>
-          <label 
-            htmlFor="password" 
+          <label
+            htmlFor="password"
             style={{
-              display: 'block',
-              marginBottom: '5px',
-              fontWeight: '500'
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "500",
             }}
           >
             Hasło
@@ -111,45 +115,49 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
             style={{
-              width: '100%',
-              padding: '10px 12px',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '16px',
-              boxSizing: 'border-box'
+              width: "100%",
+              padding: "10px 12px",
+              borderRadius: "6px",
+              border: "1px solid #ddd",
+              fontSize: "16px",
+              boxSizing: "border-box",
             }}
           />
         </div>
 
         {/* Komunikat o błędzie */}
         {error && (
-          <p style={{ 
-            color: 'red', 
-            textAlign: 'center',
-            margin: '0',
-            fontSize: '14px'
-          }}>
+          <p
+            style={{
+              color: "red",
+              textAlign: "center",
+              margin: "0",
+              fontSize: "14px",
+            }}
+          >
             {error}
           </p>
         )}
 
         {/* Link do rejestracji */}
-        <p style={{ 
-          textAlign: 'center', 
-          fontSize: '14px', 
-          margin: '10px 0 0 0',
-          color: '#666'
-        }}>
-          Nie masz konta?{' '}
-          <Link 
-            href="/register" 
-            style={{ 
-              color: '#139c8a', 
-              fontWeight: 'bold', 
-              textDecoration: 'none',
-              ':hover': {
-                textDecoration: 'underline'
-              }
+        <p
+          style={{
+            textAlign: "center",
+            fontSize: "14px",
+            margin: "10px 0 0 0",
+            color: "#666",
+          }}
+        >
+          Nie masz konta?{" "}
+          <Link
+            href="/register"
+            style={{
+              color: "#139c8a",
+              fontWeight: "bold",
+              textDecoration: "none",
+              ":hover": {
+                textDecoration: "underline",
+              },
             }}
           >
             Zarejestruj się
@@ -160,20 +168,20 @@ export default function LoginPage() {
         <button
           type="submit"
           style={{
-            width: '100%',
-            padding: '12px',
-            borderRadius: '6px',
-            border: 'none',
-            backgroundColor: '#139c8a',
-            color: 'white',
-            fontSize: '16px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            marginTop: '15px',
-            transition: 'background-color 0.3s'
+            width: "100%",
+            padding: "12px",
+            borderRadius: "6px",
+            border: "none",
+            backgroundColor: "#139c8a",
+            color: "white",
+            fontSize: "16px",
+            fontWeight: "600",
+            cursor: "pointer",
+            marginTop: "15px",
+            transition: "background-color 0.3s",
           }}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#0d8a7a'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#139c8a'}
+          onMouseOver={(e) => (e.target.style.backgroundColor = "#0d8a7a")}
+          onMouseOut={(e) => (e.target.style.backgroundColor = "#139c8a")}
         >
           Zaloguj się
         </button>

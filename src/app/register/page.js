@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const router = useRouter();
 
@@ -18,45 +18,49 @@ export default function RegisterPage() {
 
     // Tutaj możesz dodać bardziej zaawansowaną walidację
     if (!name || !email || !password) {
-      setError('Wszystkie pola są wymagane');
+      setError("Wszystkie pola są wymagane");
       return;
     }
 
     // Symulacja udanej rejestracji
-    setError('');
-    setSuccess('Rejestracja przebiegła pomyślnie! Możesz się teraz zalogować.');
-    
+    setError("");
+    setSuccess("Rejestracja przebiegła pomyślnie! Możesz się teraz zalogować.");
+
     // Tutaj w prawdziwej aplikacji wysłałbyś dane do backendu
     // np. fetch('/api/register', { method: 'POST', body: JSON.stringify({ name, email, password }) })
-    
+
     // Opcjonalne przekierowanie po pewnym czasie
     setTimeout(() => {
-      router.push('/login');
+      router.push("/login");
     }, 2000);
   };
 
   return (
-    <div style={{ 
-      padding: '20px', 
-      maxWidth: '400px', 
-      margin: '0 auto' 
-    }}>
-      <h2 style={{ 
-        textAlign: 'center', 
-        color: "black", 
-        fontSize: "20px" 
-      }}>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "400px",
+        margin: "0 auto",
+      }}
+    >
+      <h2
+        style={{
+          textAlign: "center",
+          color: "black",
+          fontSize: "20px",
+        }}
+      >
         Zarejestruj się
       </h2>
-      
-      <form 
-        onSubmit={handleRegister} 
-        style={{ 
-          display: 'flex', 
-          flexDirection: 'column',
-          gap: '15px',
-          maxWidth: '400px',
-          margin: '0 auto'
+
+      <form
+        onSubmit={handleRegister}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+          maxWidth: "400px",
+          margin: "0 auto",
         }}
       >
         {/* Styl dla wszystkich inputów */}
@@ -76,12 +80,12 @@ export default function RegisterPage() {
 
         {/* Pole Imię */}
         <div>
-          <label 
-            htmlFor="name" 
+          <label
+            htmlFor="name"
             style={{
-              display: 'block',
-              marginBottom: '5px',
-              fontWeight: '500'
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "500",
             }}
           >
             Imię
@@ -93,24 +97,24 @@ export default function RegisterPage() {
             onChange={(e) => setName(e.target.value)}
             required
             style={{
-              width: '100%',
-              padding: '10px 12px',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '16px',
-              boxSizing: 'border-box'
+              width: "100%",
+              padding: "10px 12px",
+              borderRadius: "6px",
+              border: "1px solid #ddd",
+              fontSize: "16px",
+              boxSizing: "border-box",
             }}
           />
         </div>
 
         {/* Pole Email */}
         <div>
-          <label 
-            htmlFor="email" 
+          <label
+            htmlFor="email"
             style={{
-              display: 'block',
-              marginBottom: '5px',
-              fontWeight: '500'
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "500",
             }}
           >
             Email
@@ -122,24 +126,24 @@ export default function RegisterPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
             style={{
-              width: '100%',
-              padding: '10px 12px',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '16px',
-              boxSizing: 'border-box'
+              width: "100%",
+              padding: "10px 12px",
+              borderRadius: "6px",
+              border: "1px solid #ddd",
+              fontSize: "16px",
+              boxSizing: "border-box",
             }}
           />
         </div>
 
         {/* Pole Hasło */}
         <div>
-          <label 
-            htmlFor="password" 
+          <label
+            htmlFor="password"
             style={{
-              display: 'block',
-              marginBottom: '5px',
-              fontWeight: '500'
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "500",
             }}
           >
             Hasło
@@ -151,54 +155,60 @@ export default function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
             style={{
-              width: '100%',
-              padding: '10px 12px',
-              borderRadius: '6px',
-              border: '1px solid #ddd',
-              fontSize: '16px',
-              boxSizing: 'border-box'
+              width: "100%",
+              padding: "10px 12px",
+              borderRadius: "6px",
+              border: "1px solid #ddd",
+              fontSize: "16px",
+              boxSizing: "border-box",
             }}
           />
         </div>
-        
+
         {/* Komunikaty o błędzie i sukcesie */}
         {error && (
-          <div style={{ 
-            color: 'red', 
-            textAlign: 'center',
-            margin: '10px 0'
-          }}>
+          <div
+            style={{
+              color: "red",
+              textAlign: "center",
+              margin: "10px 0",
+            }}
+          >
             {error}
           </div>
         )}
-        
+
         {success && (
-          <div style={{ 
-            color: 'green', 
-            textAlign: 'center',
-            margin: '10px 0'
-          }}>
+          <div
+            style={{
+              color: "green",
+              textAlign: "center",
+              margin: "10px 0",
+            }}
+          >
             {success}
           </div>
         )}
-        
+
         {/* Link do logowania */}
-        <p style={{ 
-          textAlign: 'center', 
-          fontSize: '14px', 
-          margin: '10px 0 0 0',
-          color: '#666'
-        }}>
-          Masz już konto?{' '}
-          <Link 
-            href="/login" 
-            style={{ 
-              color: '#139c8a', 
-              fontWeight: 'bold', 
-              textDecoration: 'none',
-              ':hover': {
-                textDecoration: 'underline'
-              }
+        <p
+          style={{
+            textAlign: "center",
+            fontSize: "14px",
+            margin: "10px 0 0 0",
+            color: "#666",
+          }}
+        >
+          Masz już konto?{" "}
+          <Link
+            href="/login"
+            style={{
+              color: "#139c8a",
+              fontWeight: "bold",
+              textDecoration: "none",
+              ":hover": {
+                textDecoration: "underline",
+              },
             }}
           >
             Zaloguj się
@@ -209,20 +219,20 @@ export default function RegisterPage() {
         <button
           type="submit"
           style={{
-            width: '100%',
-            padding: '12px',
-            borderRadius: '6px',
-            border: 'none',
-            backgroundColor: '#139c8a',
-            color: 'white',
-            fontSize: '16px',
-            fontWeight: '600',
-            cursor: 'pointer',
-            marginTop: '10px',
-            transition: 'background-color 0.3s'
+            width: "100%",
+            padding: "12px",
+            borderRadius: "6px",
+            border: "none",
+            backgroundColor: "#139c8a",
+            color: "white",
+            fontSize: "16px",
+            fontWeight: "600",
+            cursor: "pointer",
+            marginTop: "10px",
+            transition: "background-color 0.3s",
           }}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#0d8a7a'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#139c8a'}
+          onMouseOver={(e) => (e.target.style.backgroundColor = "#0d8a7a")}
+          onMouseOut={(e) => (e.target.style.backgroundColor = "#139c8a")}
         >
           Zarejestruj się
         </button>

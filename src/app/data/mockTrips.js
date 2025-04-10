@@ -2,13 +2,14 @@ const mockTrips = [
   {
     id: 1,
     title: "Wypad w Tatry",
-    description: "Weekend w Zakopanem z noclegiem w pensjonacie u góralskiej rodziny",
-    date: "20 - 23 Kwietnia 2025",
+    description:
+      "Weekend w Zakopanem z noclegiem w pensjonacie u góralskiej rodziny",
+    date: "2025-04-20",
     location: "Tatry",
     price: 300,
     image: "/images/tatry.jpg",
     duration: "2 dni",
-    capacity: 8
+    capacity: 8,
   },
   {
     id: 2,
@@ -19,7 +20,7 @@ const mockTrips = [
     price: 150,
     image: "/images/morskie-oko.jpg",
     duration: "1 dzień",
-    capacity: 15
+    capacity: 15,
   },
   {
     id: 3,
@@ -30,18 +31,19 @@ const mockTrips = [
     price: 450,
     image: "/images/ustka.jpg",
     duration: "3 dni",
-    capacity: 6
+    capacity: 6,
   },
   {
     id: 4,
     title: "Zwiedzanie Wrocławia",
-    description: "City break z przewodnikiem po najciekawszych miejscach Wrocławia",
+    description:
+      "City break z przewodnikiem po najciekawszych miejscach Wrocławia",
     date: "2025-05-20",
     location: "Wrocław",
     price: 250,
     image: "/images/wroclaw.jpg",
     duration: "2 dni",
-    capacity: 10
+    capacity: 10,
   },
   {
     id: 5,
@@ -52,29 +54,31 @@ const mockTrips = [
     price: 120,
     image: "/images/dunajec.jpg",
     duration: "1 dzień",
-    capacity: 12
+    capacity: 12,
   },
   {
     id: 6,
     title: "Warszawa - weekend w stolicy",
-    description: "Zwiedzanie Warszawy z noclegiem w centrum i biletami do muzeów",
+    description:
+      "Zwiedzanie Warszawy z noclegiem w centrum i biletami do muzeów",
     date: "2025-09-05",
     location: "Warszawa",
     price: 380,
     image: "/images/warszawa.jpg",
     duration: "2 dni",
-    capacity: 8
+    capacity: 8,
   },
   {
     id: 7,
     title: "Bieszczady dzikie i piękne",
-    description: "Wyprawa w Bieszczady z noclegiem w bacówce i obserwacją żubrów",
+    description:
+      "Wyprawa w Bieszczady z noclegiem w bacówce i obserwacją żubrów",
     date: "2025-08-22",
     location: "Bieszczady",
     price: 420,
     image: "/images/bieszczady.jpg",
     duration: "4 dni",
-    capacity: 5
+    capacity: 5,
   },
   {
     id: 8,
@@ -85,9 +89,8 @@ const mockTrips = [
     price: 90,
     image: "/images/wieliczka.jpg",
     duration: "1 dzień",
-    capacity: 20
-  }
+    capacity: 20,
+  },
 ];
-  
-  export default mockTrips;
-  
+
+export default mockTrips;
