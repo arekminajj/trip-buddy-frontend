@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TripBuddy Frontend
 
-## Getting Started
+TripBuddy is a web application for planning and sharing trips. This repository contains the frontend built with Next.js and integrated with NextAuth for authentication.
 
-First, run the development server:
+## Installation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/arekminajj/tripbuddy-frontend.git
+    cd tripbuddy-frontend
+    ```
+
+2. **Install dependencies**:
+    ```bash
+    npm install
+    ```
+
+## Configuration
+
+Create a `.env` file in the root directory with the following content:
+
+```env
+BASE_URL=http://localhost:5000
+NEXTAUTH_SECRET=<your-nextauth-secret>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `BASE_URL` should be the URL of your backend (usually `http://localhost:5000` if you are running it locally).
+- `NEXTAUTH_SECRET` is used for securing JWT tokens in authentication. You can generate a random secret using:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+    ```bash
+    openssl rand -base64 32
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Running the Project
 
-## Learn More
+1. **Start the frontend server**:
+    ```bash
+    npm run dev
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2. The app will be available at `http://localhost:3000`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Self-hosting the Backend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To run the application, you need to host the backend yourself. You can find the backend repository here:
 
-## Deploy on Vercel
+[TripBuddy Backend](https://github.com/arekminajj/tripbuddy-backend)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Follow the setup instructions in the backend repository, and make sure it is running at `http://localhost:5000` or adjust the `BASE_URL` in your `.env` accordingly.
