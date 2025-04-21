@@ -2,24 +2,30 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
 
-    if (username === "admin" && password === "admin") {
-      localStorage.setItem("loggedIn", "true");
-      setError("");
-      router.push("/");
-    } else {
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (res?.error) {
       setError("Nieprawidłowy login lub hasło");
+    } else {
+      router.push("/"); // login successful -> redirect home
     }
   };
 
@@ -52,7 +58,6 @@ export default function LoginPage() {
           padding: "20px",
         }}
       >
-        {/* Globalne style dla inputów */}
         <style jsx>{`
           input {
             transition: all 0.3s ease;
@@ -67,23 +72,15 @@ export default function LoginPage() {
           }
         `}</style>
 
-        {/* Pole Nazwa użytkownika */}
         <div>
-          <label
-            htmlFor="username"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "500",
-            }}
-          >
+          <label htmlFor="email" style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>
             Email
           </label>
           <input
             type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="email"
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
             required
             style={{
               width: "100%",
@@ -96,16 +93,8 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* Pole Hasło */}
         <div>
-          <label
-            htmlFor="password"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "500",
-            }}
-          >
+          <label htmlFor="password" style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>
             Hasło
           </label>
           <input
@@ -125,29 +114,13 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* Komunikat o błędzie */}
         {error && (
-          <p
-            style={{
-              color: "red",
-              textAlign: "center",
-              margin: "0",
-              fontSize: "14px",
-            }}
-          >
+          <p style={{ color: "red", textAlign: "center", margin: "0", fontSize: "14px" }}>
             {error}
           </p>
         )}
 
-        {/* Link do rejestracji */}
-        <p
-          style={{
-            textAlign: "center",
-            fontSize: "14px",
-            margin: "10px 0 0 0",
-            color: "#666",
-          }}
-        >
+        <p style={{ textAlign: "center", fontSize: "14px", margin: "10px 0 0 0", color: "#666" }}>
           Nie masz konta?{" "}
           <Link
             href="/register"
@@ -155,16 +128,13 @@ export default function LoginPage() {
               color: "#139c8a",
               fontWeight: "bold",
               textDecoration: "none",
-              ":hover": {
-                textDecoration: "underline",
-              },
+              ":hover": { textDecoration: "underline" },
             }}
           >
             Zarejestruj się
           </Link>
         </p>
 
-        {/* Przycisk logowania */}
         <button
           type="submit"
           style={{

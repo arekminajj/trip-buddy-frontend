@@ -9,31 +9,26 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const router = useRouter();
 
-  const handleRegister = (e) => {
+  async function handleRegister(e) {
     e.preventDefault();
-
-    // Tutaj możesz dodać bardziej zaawansowaną walidację
-    if (!name || !email || !password) {
-      setError("Wszystkie pola są wymagane");
-      return;
-    }
-
-    // Symulacja udanej rejestracji
     setError("");
-    setSuccess("Rejestracja przebiegła pomyślnie! Możesz się teraz zalogować.");
 
-    // Tutaj w prawdziwej aplikacji wysłałbyś dane do backendu
-    // np. fetch('/api/register', { method: 'POST', body: JSON.stringify({ name, email, password }) })
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-    // Opcjonalne przekierowanie po pewnym czasie
-    setTimeout(() => {
-      router.push("/login");
-    }, 2000);
-  };
+    if (res.ok) {
+      router.push("/api/auth/signin");
+    } else {
+      const data = await res.json();
+      setError(data.error || "Registration failed");
+    }
+  }
 
   return (
     <div
@@ -77,35 +72,6 @@ export default function RegisterPage() {
             box-shadow: 0 0 0 2px rgba(19, 156, 138, 0.2);
           }
         `}</style>
-
-        {/* Pole Imię */}
-        <div>
-          <label
-            htmlFor="name"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "500",
-            }}
-          >
-            Imię
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: "6px",
-              border: "1px solid #ddd",
-              fontSize: "16px",
-              boxSizing: "border-box",
-            }}
-          />
-        </div>
 
         {/* Pole Email */}
         <div>
@@ -175,18 +141,6 @@ export default function RegisterPage() {
             }}
           >
             {error}
-          </div>
-        )}
-
-        {success && (
-          <div
-            style={{
-              color: "green",
-              textAlign: "center",
-              margin: "10px 0",
-            }}
-          >
-            {success}
           </div>
         )}
 
