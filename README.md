@@ -44,6 +44,6 @@ NEXTAUTH_SECRET=<your-nextauth-secret>
 
 To run the application, you need to host the backend yourself. You can find the backend repository here:
 
-[TripBuddy Backend](https://github.com/arekminajj/tripbuddy-backend)
+[TripBuddy Backend](https://github.com/arekminajj/trip-buddy-backend)
 
 Follow the setup instructions in the backend repository, and make sure it is running at `http://localhost:5000` or adjust the `BASE_URL` in your `.env` accordingly.
