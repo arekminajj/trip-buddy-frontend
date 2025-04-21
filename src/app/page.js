@@ -1,4 +1,4 @@
-import CardWrapper from "./components/CardWrapper";
+import CardWrapper from "./components/TripCard";
 import mockTrips from "./data/mockTrips";
 
 export default function HomePage() {
