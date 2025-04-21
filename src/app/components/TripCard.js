@@ -31,7 +31,7 @@ export default function TripCard({ trip }) {
     >
       <div style={{ width: "100%", height: "230px", position: "relative" }}>
         <Image
-          src={`https://picsum.photos/650/300?random=${randomParam}`}
+          src={trip.imageUrl ? trip.imageUrl : "https://i.ytimg.com/vi/-57pK7OqmQw/maxresdefault.jpg"}
           alt={`Zdjęcie z ${trip.title}`}
           fill
           style={{ objectFit: "cover" }}
@@ -59,7 +59,7 @@ export default function TripCard({ trip }) {
               fontWeight: "600",
             }}
           >
-            {trip.title}
+            {trip.name}
           </h2>
 
           <div
@@ -72,7 +72,7 @@ export default function TripCard({ trip }) {
             }}
           >
             <p style={{ margin: "8px 0" }}>
-              📅 <strong>Data:</strong> {trip.date}
+              📅 <strong>Data:</strong> {trip.startDate} - {trip.endDate}
             </p>
             {trip.description}
           </div>
@@ -91,7 +91,7 @@ export default function TripCard({ trip }) {
           }}
         >
           <p style={{ margin: "40px 0" }}>
-            📍 <strong>Lokalizacja:</strong> {trip.location}
+            📍 <strong>Lokalizacja:</strong> {trip.startLocation} - {trip.endLocation}
           </p>
         </div>
       </div>
