@@ -1,25 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { MapPinned, UserCircle, Bell } from "lucide-react";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { MapPinned, UserCircle } from "lucide-react";
+import { useState } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: session, status } = useSession();
   const [showMenu, setShowMenu] = useState(false);
-  const router = useRouter();
 
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("loggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
-    setIsLoggedIn(false);
-    router.push("/");
-  };
+  const isLoggedIn = !!session;
 
   const buttonStyle = {
     backgroundColor: "#fff",
@@ -42,7 +32,7 @@ export default function Header() {
         padding: "0 20px",
       }}
     >
-      {/* =================== Logo =================== */}
+      {/* Logo */}
       <div
         style={{
           position: "absolute",
@@ -69,7 +59,7 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* =================== Główne przyciski (nawigacja) =================== */}
+      {/* Navigation */}
       <div
         style={{
           position: "absolute",
@@ -91,7 +81,7 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* =================== Ikony powiadomień i konta =================== */}
+      {/* User Menu */}
       <div
         style={{
           position: "absolute",
@@ -102,7 +92,6 @@ export default function Header() {
       >
         {isLoggedIn ? (
           <div style={{ position: "relative" }}>
-            {/* =================== Ikona konta i rozwijane menu =================== */}
             <button
               onClick={() => setShowMenu((prev) => !prev)}
               style={{ background: "none", border: "none", cursor: "pointer" }}
@@ -110,7 +99,6 @@ export default function Header() {
               <UserCircle size={36} color="white" />
             </button>
 
-            {/* =================== Menu konta (rozwijane) =================== */}
             {showMenu && (
               <div
                 style={{
@@ -138,7 +126,7 @@ export default function Header() {
                   Moje konto
                 </Link>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => signOut()}
                   style={{
                     display: "block",
                     width: "100%",
@@ -156,9 +144,9 @@ export default function Header() {
             )}
           </div>
         ) : (
-          <Link href="/login" style={buttonStyle}>
+          <button onClick={() => signIn(undefined, { callbackUrl: "/login" })} style={buttonStyle}>
             Zaloguj się
-          </Link>
+          </button>
         )}
       </div>
     </header>
