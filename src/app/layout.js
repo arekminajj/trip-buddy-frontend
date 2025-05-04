@@ -1,6 +1,6 @@
 import "./globals.css";
-import HeaderWrapper from "./components/HeaderWrapper";
-import SessionWrapper from "./components/SessionWrapper"; // 👈
+import Header from "./components/Header";
+import SessionWrapper from "./components/SessionWrapper";
 
 export const metadata = {
   title: "TripBuddy",
@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="pl">
       <body>
         <SessionWrapper>
-          <HeaderWrapper />
+          <Header />
           <main style={{ padding: "20px" }}>{children}</main>
         </SessionWrapper>
       </body>
