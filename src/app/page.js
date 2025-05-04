@@ -1,7 +1,11 @@
-import CardWrapper from "./components/CardWrapper";
-import mockTrips from "./data/mockTrips";
+import TripCard from "./components/TripCard";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const data = await fetch(process.env.BASE_URL + "/api/trip")
+  const trips = await data.json()
+
+
+  console.log(await trips)
   return (
     <div style={{ padding: "20px" }}>
       <h1
@@ -25,8 +29,8 @@ export default function HomePage() {
           gap: "24px",
         }}
       >
-        {mockTrips.map((trip, index) => (
-          <CardWrapper key={index} trip={trip} /> // Pass trip to CardWrapper
+        {trips.map((trip, index) => (
+          <TripCard key={index} trip={trip} />
         ))}
       </div>
     </div>

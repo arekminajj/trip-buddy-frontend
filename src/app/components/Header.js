@@ -1,18 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { MapPinned } from "lucide-react";
+import { MapPinned, UserCircle } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const router = useRouter();
+  const { data: session, status } = useSession();
+  const [showMenu, setShowMenu] = useState(false);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    // Możesz dodać logikę wylogowania, np. usunięcie tokenu z localStorage
-    router.push("/"); // Przekierowanie po wylogowaniu
+  const isLoggedIn = !!session;
+
+  const buttonStyle = {
+    backgroundColor: "#fff",
+    padding: "8px 16px",
+    borderRadius: "9999px",
+    border: "1px solid #ddd",
+    textDecoration: "none",
+    fontWeight: "bold",
+    color: "#333",
+    transition: "all 0.3s ease",
   };
 
   return (
@@ -25,7 +32,7 @@ export default function Header() {
         padding: "0 20px",
       }}
     >
-      {/* Logo - pozycjonowanie absolutne lewe */}
+      {/* Logo */}
       <div
         style={{
           position: "absolute",
@@ -52,50 +59,94 @@ export default function Header() {
         </Link>
       </div>
 
-      {/* Przyciski - pozycjonowanie absolutne prawe */}
+      {/* Navigation */}
+      <div
+        style={{
+          position: "absolute",
+          left: "300px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          display: "flex",
+          gap: "20px",
+        }}
+      >
+        <Link href="/browse" style={buttonStyle}>
+          Przeglądaj podróże
+        </Link>
+        <Link href="/add" style={buttonStyle}>
+          Dodaj ogłoszenie
+        </Link>
+        <Link href="/mytrips" style={buttonStyle}>
+          Moje podróże
+        </Link>
+      </div>
+
+      {/* User Menu */}
       <div
         style={{
           position: "absolute",
           right: "20px",
           top: "50%",
           transform: "translateY(-50%)",
-          display: "flex",
-          gap: "10px",
         }}
       >
         {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            style={{
-              backgroundColor: "#fff",
-              padding: "8px 16px",
-              borderRadius: "9999px",
-              border: "1px solid #ddd",
-              textDecoration: "none",
-              fontWeight: "bold",
-              color: "#333",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-            }}
-          >
-            Wyloguj się
-          </button>
+          <div style={{ position: "relative" }}>
+            <button
+              onClick={() => setShowMenu((prev) => !prev)}
+              style={{ background: "none", border: "none", cursor: "pointer" }}
+            >
+              <UserCircle size={36} color="white" />
+            </button>
+
+            {showMenu && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "45px",
+                  right: "0",
+                  backgroundColor: "white",
+                  border: "1px solid #ddd",
+                  borderRadius: "8px",
+                  padding: "10px",
+                  minWidth: "150px",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                  zIndex: 10,
+                }}
+              >
+                <Link
+                  href="/account"
+                  style={{
+                    display: "block",
+                    padding: "8px",
+                    color: "#333",
+                    textDecoration: "none",
+                  }}
+                >
+                  Moje konto
+                </Link>
+                <button
+                  onClick={() => signOut()}
+                  style={{
+                    display: "block",
+                    width: "100%",
+                    padding: "8px",
+                    background: "none",
+                    border: "none",
+                    textAlign: "left",
+                    color: "#333",
+                    cursor: "pointer",
+                  }}
+                >
+                  Wyloguj się
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
-          <Link
-            href="/login"
-            style={{
-              backgroundColor: "#fff",
-              padding: "8px 16px",
-              borderRadius: "9999px",
-              border: "1px solid #ddd",
-              textDecoration: "none",
-              fontWeight: "bold",
-              color: "#333",
-              transition: "all 0.3s ease",
-            }}
-          >
+          <button onClick={() => signIn(undefined, { callbackUrl: "/login" })} style={buttonStyle}>
             Zaloguj się
-          </Link>
+          </button>
         )}
       </div>
     </header>
