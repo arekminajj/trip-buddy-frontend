@@ -60,7 +60,8 @@ export default function Header() {
       </div>
 
       {/* Navigation */}
-      <div
+      {isLoggedIn ? (
+        <div
         style={{
           position: "absolute",
           left: "300px",
@@ -80,6 +81,8 @@ export default function Header() {
           Moje podróże
         </Link>
       </div>
+      ) : null }
+      
 
       {/* User Menu */}
       <div
