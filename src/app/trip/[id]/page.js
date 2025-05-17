@@ -73,7 +73,7 @@ export default async function TripDetailPage({ params }) {
             <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Organizator wycieczki</h2>
             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
               <Image
-                src={ownerDetails.profilePictureURI || "/default-profile.jpg"}
+                src={ownerDetails.profilePictureURI || "/images/avatar.jpg"}
                 alt="owner pfp"
                 width={100}
                 height={100}
@@ -89,16 +89,33 @@ export default async function TripDetailPage({ params }) {
 
         {trip.members && trip.members.length > 0 && (
           <div style={{ marginTop: "30px", paddingTop: "20px", borderTop: "1px solid #ccc" }}>
-            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Uczestnicy wycieczki</h2>
+            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Uczestnicy wyprawy</h2>
             <ul style={{ listStyle: "none", padding: 0 }}>
               {trip.members.map((member) => (
-                <li key={member.id} style={{ marginBottom: "8px", color: "#333" }}>
-                  👤 {member.userName || member.email}
+                <li
+                  key={member.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "12px",
+                    gap: "12px",
+                    color: "#333",
+                  }}
+                >
+                  <Image
+                    src={member.profilePictureURI || "/images/avatar.jpg"}
+                    alt={`Avatar of ${member.userName || member.email}`}
+                    width={40}
+                    height={40}
+                    style={{ borderRadius: "50%", objectFit: "cover" }}
+                  />
+                  <span>{member.userName || member.email}</span>
                 </li>
               ))}
             </ul>
           </div>
         )}
+
       </div>
     </div>
   );
