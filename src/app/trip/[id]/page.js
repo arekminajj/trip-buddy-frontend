@@ -1,14 +1,6 @@
 import Image from "next/image";
 import JoinTripButton from "./joinTripButton";
-
-function formatDate(dateStr) {
-  return new Intl.DateTimeFormat("pl-PL", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(dateStr));
-}
+import formatDate from "@/app/common/formatDate";
 
 export default async function TripDetailPage({ params }) {
   const tripId = await params.id;
@@ -51,7 +43,7 @@ export default async function TripDetailPage({ params }) {
       >
         <div style={{ position: "relative", width: "100%", height: "400px", marginBottom: "20px" }}>
           <Image
-            src={trip.imageUrl || "https://i.ytimg.com/vi/-57pK7OqmQw/maxresdefault.jpg"}
+            src={trip.imageUrl || "/images/default.jpg"}
             alt="Trip image"
             fill
             style={{ objectFit: "cover", borderRadius: "12px" }}
