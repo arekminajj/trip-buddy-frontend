@@ -1,23 +1,24 @@
 import Image from "next/image";
+import JoinTripButton from "./joinTripButton";
 
 function formatDate(dateStr) {
-    return new Intl.DateTimeFormat("pl-PL", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      timeZone: "UTC",
-    }).format(new Date(dateStr));
-  }
+  return new Intl.DateTimeFormat("pl-PL", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(dateStr));
+}
 
 export default async function TripDetailPage({ params }) {
-  const tripId = params.id;
+  const tripId = await params.id;
 
-  const tripRes = await fetch(`${process.env.BASE_URL}/api/trip/${tripId}`);
+  const tripRes = await fetch(`${process.env.BASE_URL}/api/trip/${tripId}`, { cache: 'no-store' });
   const trip = await tripRes.json();
 
   let ownerDetails = null;
   if (trip.owner?.id) {
-    const ownerRes = await fetch(`${process.env.BASE_URL}/api/user?id=${trip.owner.id}`);
+    const ownerRes = await fetch(`${process.env.BASE_URL}/api/user?id=${trip.owner.id}`, { cache: 'no-store' });
     ownerDetails = await ownerRes.json();
   }
 
@@ -63,20 +64,24 @@ export default async function TripDetailPage({ params }) {
         <p><strong>🧍‍♂️ Maksymalna liczba uczestników:</strong> {trip.maxMembers}</p>
         <p><strong>📍 Trasa:</strong> {trip.startLocation} → {trip.endLocation}</p>
 
+        <div style={{ marginTop: "20px" }}>
+          <JoinTripButton tripId={tripId} />
+        </div>
+
         {ownerDetails && (
           <div style={{ marginTop: "30px", paddingTop: "20px", borderTop: "1px solid #ccc" }}>
             <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Organizator wyprawy</h2>
             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
               <Image
-                src={ownerDetails.profilePictureURI}
-                alt="Zdjęcie właściciela"
+                src={ownerDetails.profilePictureURI || "/default-profile.jpg"}
+                alt="owner pfp"
                 width={100}
                 height={100}
                 style={{ borderRadius: "50%", objectFit: "cover" }}
               />
               <div>
                 <p><strong>{trip.owner.userName}</strong></p>
-                <p style={{ fontStyle: "italic", color: "#666" }}>{ownerDetails.bio}</p>
+                {ownerDetails.bio && <p style={{ fontStyle: "italic", color: "#666" }}>{ownerDetails.bio}</p>}
               </div>
             </div>
           </div>
