@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
+import Link from "next/link";
 
 export default async function AccountPage() {
   const session = await getServerSession(authOptions);
@@ -107,6 +108,21 @@ export default async function AccountPage() {
           <strong>Adres e-mail:</strong> {user.email}
         </p>
       </div>
+      <Link href="/account/edit">
+        <button
+          style={{
+            marginTop: "30px",
+            padding: "10px 20px",
+            backgroundColor: "#0070f3",
+            color: "#fff",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+          }}
+        >
+          Edytuj profil
+        </button>
+      </Link>
     </div>
   );
 }
