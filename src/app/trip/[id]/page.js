@@ -70,7 +70,7 @@ export default async function TripDetailPage({ params }) {
 
         {ownerDetails && (
           <div style={{ marginTop: "30px", paddingTop: "20px", borderTop: "1px solid #ccc" }}>
-            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Organizator wyprawy</h2>
+            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Organizator wycieczki</h2>
             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
               <Image
                 src={ownerDetails.profilePictureURI || "/default-profile.jpg"}
@@ -84,6 +84,19 @@ export default async function TripDetailPage({ params }) {
                 {ownerDetails.bio && <p style={{ fontStyle: "italic", color: "#666" }}>{ownerDetails.bio}</p>}
               </div>
             </div>
+          </div>
+        )}
+
+        {trip.members && trip.members.length > 0 && (
+          <div style={{ marginTop: "30px", paddingTop: "20px", borderTop: "1px solid #ccc" }}>
+            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Uczestnicy wycieczki</h2>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {trip.members.map((member) => (
+                <li key={member.id} style={{ marginBottom: "8px", color: "#333" }}>
+                  👤 {member.userName || member.email}
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
