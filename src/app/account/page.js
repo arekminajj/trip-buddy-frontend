@@ -1,9 +1,23 @@
 import Image from "next/image";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth/next";
 
 export default async function AccountPage() {
-  const userId = "e7f027c7-74a0-4d53-8ec6-97a53df24cbc";
-  const res = await fetch(`http://localhost:5223/api/user?id=${userId}`, {
+  const session = await getServerSession(authOptions);
+  if (!session?.accessToken) {
+    return (
+      <div style={{ padding: 20 }}>
+        Zaloguj się aby odwiedzić swój profil!
+      </div>
+    );
+  }
+
+  const res = await fetch(process.env.BASE_URL + `/api/user/current`, {
     cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session.accessToken}`,
+    },
   });
 
   if (!res.ok) {
