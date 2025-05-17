@@ -1,8 +1,21 @@
 import Image from "next/image";
 import JoinTripButton from "./joinTripButton";
 import formatDate from "@/app/common/formatDate";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth/next";
+import Link from "next/link";
+
 
 export default async function TripDetailPage({ params }) {
+  const session = await getServerSession(authOptions);
+    if (!session?.accessToken) {
+      return (
+        <div style={{ padding: 20 }}>
+          Zaloguj się aby obejrzeć szczegóły wycieczki
+        </div>
+      );
+    }
+
   const tripId = await params.id;
 
   const tripRes = await fetch(`${process.env.BASE_URL}/api/trip/${tripId}`, { cache: 'no-store' });
@@ -13,6 +26,20 @@ export default async function TripDetailPage({ params }) {
     const ownerRes = await fetch(`${process.env.BASE_URL}/api/user?id=${trip.owner.id}`, { cache: 'no-store' });
     ownerDetails = await ownerRes.json();
   }
+
+  const currentUserRes = await fetch(process.env.BASE_URL + `/api/user/current`, {
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session.accessToken}`,
+    },
+  });
+
+  if (!currentUserRes.ok) {
+    return <div style={{ padding: 20 }}>Błąd podczas ładowania użytkownika.</div>;
+  }
+
+  const currentUser = await currentUserRes.json();
 
   return (
     <div style={{ padding: "20px" }}>
@@ -58,8 +85,27 @@ export default async function TripDetailPage({ params }) {
 
         <div style={{ marginTop: "20px" }}>
           <JoinTripButton tripId={tripId} />
+          <br></br>
+          {currentUser?.id === ownerDetails.id && (
+        <Link
+          href={`/trip/edit/${trip.id}`}
+          passHref
+        >
+          <button
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#139c8a",
+              color: "#fff",
+              border: "none",
+              borderRadius: "6px",
+              cursor: "pointer",
+            }}
+          >
+            Edytuj wycieczkę
+          </button>
+        </Link>
+      )}
         </div>
-
         {ownerDetails && (
           <div style={{ marginTop: "30px", paddingTop: "20px", borderTop: "1px solid #ccc" }}>
             <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Organizator wycieczki</h2>
