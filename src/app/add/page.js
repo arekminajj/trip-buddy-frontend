@@ -2,37 +2,62 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function AddTripPage() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [date1, setDate1] = useState("");
-  const [date2, setDate2] = useState("");
-  const [location, setLocation] = useState("");
-  const [price, setPrice] = useState("");
-  const [duration, setDuration] = useState("");
-  const [capacity, setCapacity] = useState("");
-
+  const { data: session } = useSession();
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [startLocation, setStartLocation] = useState("");
+  const [endLocation, setEndLocation] = useState("");
+  const [price, setPrice] = useState("");
+  const [maxMembers, setMaxMembers] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newTrip = {
-      id: Date.now(),
-      title,
+    if (!session?.accessToken) {
+      alert("Musisz być zalogowany, żeby dodać ogłoszenie.");
+      return;
+    }
+
+    const payload = {
+      name,
       description,
-      date,
-      location,
-      price,
-      duration,
-      capacity,
+      price: Number(price),
+      startDate: startDate ? `${startDate}T08:00:00` : undefined,
+      endDate: endDate ? `${endDate}T18:00:00` : undefined,
+      maxMembers: Number(maxMembers),
+      startLocation,
+      endLocation,
+      imageUrl,
     };
 
-    // Możesz dodać logikę zapisywania ogłoszenia np. w lokalnej bazie danych
-    console.log(newTrip);
+    try {
+      const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/trip", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+        body: JSON.stringify(payload),
+      });
 
-    router.push("/browse"); // Przekierowanie po dodaniu ogłoszenia
+      if (!res.ok) {
+        const error = await res.text();
+        throw new Error(error || "Błąd podczas dodawania ogłoszenia");
+      }
+
+      router.push("/browse");
+    } catch (err) {
+      console.error("AddTrip error:", err);
+      alert("Nie udało się dodać ogłoszenia: " + err.message);
+    }
   };
 
   return (
@@ -57,235 +82,126 @@ export default function AddTripPage() {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label
-            htmlFor="title"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Tytuł
-          </label>
+          <label htmlFor="name">Nazwa</label>
           <input
             type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Wpisz tytuł ogłoszenia"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: "6px",
-              border: "2px solid #139c8a",
-              fontSize: "16px",
-              boxSizing: "border-box",
-              marginBottom: "15px",
-            }}
+            style={{ width: "100%", marginBottom: "15px" }}
           />
-          <style jsx>{`
-            input:focus {
-              border-color: #139c8a; /* Kolor ramki przy aktywacji pola */
-              box-shadow: 0 0 5px rgba(19, 156, 138, 0.2); /* Delikatny cień */
-            }
-
-            input:hover {
-              border-color: #139c8a; /* Kolor ramki przy najechaniu kursorem */
-              cursor: pointer; /* Zmieniamy kursor, aby wskazać, że pole jest interaktywne */
-            }
-          `}</style>
         </div>
 
         <div>
-          <label
-            htmlFor="location"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Lokalizacja
-          </label>
+          <label htmlFor="description">Opis</label>
+          <textarea
+            id="description"
+            value={description} onChange={(e) => setDescription(e.target.value)}
+            required
+            maxLength={500}
+            style={{ width: "100%", height: "150px", marginBottom: "15px" }}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="startDate">Data rozpoczęcia</label>
+          <input
+            type="date"
+            id="startDate"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            required
+            style={{ width: "100%", marginBottom: "15px" }}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="endDate">Data zakończenia</label>
+          <input
+            type="date"
+            id="endDate"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            required
+            style={{ width: "100%", marginBottom: "15px" }}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="startLocation">Miejsce startu</label>
           <input
             type="text"
-            id="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Wpisz lokalizację"
+            id="startLocation"
+            value={startLocation}
+            onChange={(e) => setStartLocation(e.target.value)}
             required
-            style={{
-              width: "100%",
-              borderRadius: "6px",
-              border: "2px solid #139c8a",
-              padding: "10px",
-              marginBottom: "15px",
-            }}
+            style={{ width: "100%", marginBottom: "15px" }}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="date"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Data rozpoczęcia
-          </label>
+          <label htmlFor="endLocation">Miejsce zakończenia</label>
           <input
-            type="date"
-            id="date"
-            value={date1}
-            onChange={(e) => setDate1(e.target.value)}
+            type="text"
+            id="endLocation"
+            value={endLocation}
+            onChange={(e) => setEndLocation(e.target.value)}
             required
-            style={{
-              width: "100%",
-              borderRadius: "6px",
-              border: "2px solid #139c8a",
-              padding: "10px",
-              marginBottom: "15px",
-            }}
+            style={{ width: "100%", marginBottom: "15px" }}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="date"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Data zakończenia
-          </label>
-          <input
-            type="date"
-            id="date"
-            value={date2}
-            onChange={(e) => setDate2(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              borderRadius: "6px",
-              border: "2px solid #139c8a",
-              padding: "10px",
-              marginBottom: "15px",
-            }}
-          />
-        </div>
-
-        <div>
-          <label
-            htmlFor="price"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Cena
-          </label>
+          <label htmlFor="price">Cena</label>
           <input
             type="number"
             id="price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            placeholder="Wpisz cenę"
             required
-            style={{
-              width: "100%",
-              borderRadius: "6px",
-              border: "2px solid #139c8a",
-              padding: "10px",
-              marginBottom: "15px",
-            }}
+            style={{ width: "100%", marginBottom: "15px" }}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="capacity"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Liczba uczestników
-          </label>
+          <label htmlFor="maxMembers">Liczba uczestników</label>
           <input
             type="number"
-            id="capacity"
-            value={capacity}
-            onChange={(e) => setCapacity(e.target.value)}
-            placeholder="Wpisz liczbę uczestników"
+            id="maxMembers"
+            value={maxMembers}
+            onChange={(e) => setMaxMembers(e.target.value)}
             required
-            style={{
-              width: "100%",
-              borderRadius: "6px",
-              border: "2px solid #139c8a",
-              padding: "10px",
-              marginBottom: "15px",
-            }}
+            style={{ width: "100%", marginBottom: "15px" }}
           />
         </div>
 
         <div>
-          <label
-            htmlFor="description"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Opis
-          </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Dodaj opis"
-            required
-            maxLength={500} // Określa maksymalną liczbę znaków
-            style={{
-              width: "100%", // Zajmuje całą dostępną szerokość, ale ograniczoną do 500px
-              height: "260px", // Określona wysokość
-              padding: "10px",
-              marginBottom: "15px",
-              resize: "none", // Zabrania zmiany rozmiaru textarea
-              overflow: "hidden", // Zapobiega przewijaniu
-              borderRadius: "6px",
-              border: "2px solid #139c8a",
-            }}
+          <label htmlFor="imageUrl">URL obrazka</label>
+          <input
+            type="url"
+            id="imageUrl"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            style={{ width: "100%", marginBottom: "25px" }}
           />
         </div>
 
-        <div style={{ textAlign: "center" }}>
-          <button
-            type="submit"
-            style={{
-              width: "50%",
-              padding: "12px",
-              borderRadius: "6px",
-              border: "none",
-              backgroundColor: "#139c8a",
-              color: "white",
-              fontSize: "16px",
-              fontWeight: "600",
-              cursor: "pointer",
-              marginTop: "15px",
-              transition: "background-color 0.3s",
-            }}
-          >
-            Dodaj ogłoszenie
-          </button>
-        </div>
+        <button
+          type="submit"
+          style={{
+            width: "100%",
+            padding: "12px",
+            backgroundColor: "#139c8a",
+            color: "#fff",
+            fontSize: "16px",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+          }}
+        >
+          Dodaj ogłoszenie
+        </button>
       </form>
     </div>
   );

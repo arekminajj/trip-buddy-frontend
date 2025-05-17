@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function TripCard({ trip }) {
   const [randomParam, setRandomParam] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     setRandomParam(Math.floor(Math.random() * 1000));
@@ -110,6 +112,7 @@ export default function TripCard({ trip }) {
           border: "2px solid #139c8a",
           zIndex: 1,
         }}
+        onClick={() => router.push(`/trip/${trip.id}`)}
       >
         Zobacz szczegóły
       </div>
