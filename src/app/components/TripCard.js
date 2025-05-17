@@ -33,7 +33,7 @@ export default function TripCard({ trip }) {
     >
       <div style={{ width: "100%", height: "230px", position: "relative" }}>
         <Image
-          src={trip.imageUrl ? trip.imageUrl : "https://i.ytimg.com/vi/-57pK7OqmQw/maxresdefault.jpg"}
+          src={trip.imageUrl ? trip.imageUrl : "images/default.jpg"}
           alt={`Zdjęcie z ${trip.title}`}
           fill
           style={{ objectFit: "cover" }}

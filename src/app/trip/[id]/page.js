@@ -51,7 +51,7 @@ export default async function TripDetailPage({ params }) {
       >
         <div style={{ position: "relative", width: "100%", height: "400px", marginBottom: "20px" }}>
           <Image
-            src={trip.imageUrl || "https://i.ytimg.com/vi/-57pK7OqmQw/maxresdefault.jpg"}
+            src={trip.imageUrl || "/images/default.jpg"}
             alt="Trip image"
             fill
             style={{ objectFit: "cover", borderRadius: "12px" }}
