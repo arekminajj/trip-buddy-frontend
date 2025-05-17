@@ -4,8 +4,6 @@ export default async function HomePage() {
   const data = await fetch(process.env.BASE_URL + "/api/trip")
   const trips = await data.json()
 
-
-  console.log(await trips)
   return (
     <div style={{ padding: "20px" }}>
       <h1
