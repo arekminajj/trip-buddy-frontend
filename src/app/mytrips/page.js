@@ -1,25 +1,25 @@
-// /pages/mytrips.js
+import TripCard from "../components/TripCard";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth/next";
 
-"use client";
-
-import { useState, useEffect } from "react";
-import CardWrapper from "../components/CardWrapper";  // Use your CardWrapper component
-import mockTrips from "../data/mockTrips"; // Assuming you have a list of mockTrips
-
-export default function MyTripsPage() {
-  const [userTrips, setUserTrips] = useState([]);
-
-  useEffect(() => {
-    // Assuming user is logged in and we are storing their trip participation in localStorage
-    const userTripsFromStorage = JSON.parse(localStorage.getItem("userTrips")) || [];
-    
-    // Filter trips by user participation
-    const tripsUserIsPartOf = mockTrips.filter(trip => 
-      userTripsFromStorage.includes(trip.id)
+export default async function HomePage() {
+  const session = await getServerSession(authOptions);
+  if (!session?.accessToken) {
+    return (
+      <div style={{ padding: 20 }}>
+        Zaloguj się aby zobaczyć swoje wycieczki
+      </div>
     );
-
-    setUserTrips(tripsUserIsPartOf);
-  }, []);
+  }
+  
+  const data = await fetch(process.env.BASE_URL + "/api/trip/mine", {
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session.accessToken}`,
+    },
+  })
+  const trips = await data.json()
 
   return (
     <div style={{ padding: "20px" }}>
@@ -35,9 +35,8 @@ export default function MyTripsPage() {
           letterSpacing: "0.5px",
         }}
       >
-        Moje Podróże
+        Najpopularniejsze podróże - dołącz do wspólnej przygody!
       </h1>
-
       <div
         style={{
           display: "grid",
@@ -45,15 +44,9 @@ export default function MyTripsPage() {
           gap: "24px",
         }}
       >
-        {userTrips.length > 0 ? (
-          userTrips.map((trip, index) => (
-            <CardWrapper key={index} trip={trip} />
-          ))
-        ) : (
-          <p style={{ textAlign: "center", gridColumn: "1 / -1" }}>
-            Nie bierzesz udziału w żadnej podróży.
-          </p>
-        )}
+        {trips.map((trip, index) => (
+          <TripCard key={index} trip={trip} />
+        ))}
       </div>
     </div>
   );
