@@ -1,14 +1,6 @@
 import Image from "next/image";
 import JoinTripButton from "./joinTripButton";
-
-function formatDate(dateStr) {
-  return new Intl.DateTimeFormat("pl-PL", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(dateStr));
-}
+import formatDate from "@/app/common/formatDate";
 
 export default async function TripDetailPage({ params }) {
   const tripId = await params.id;

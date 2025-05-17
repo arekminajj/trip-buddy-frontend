@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import formatDate from "../common/formatDate";
 
 export default function TripCard({ trip }) {
   const [randomParam, setRandomParam] = useState(null);
@@ -74,7 +75,7 @@ export default function TripCard({ trip }) {
             }}
           >
             <p style={{ margin: "8px 0" }}>
-              📅 <strong>Data:</strong> {trip.startDate} - {trip.endDate}
+              📅 <strong>Data:</strong> {formatDate(trip.startDate)} - {formatDate(trip.endDate)}
             </p>
             {trip.description}
           </div>
