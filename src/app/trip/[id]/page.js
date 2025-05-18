@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import Image from "next/image";
 import JoinTripButton from "./joinTripButton";
 import formatDate from "@/app/common/formatDate";
@@ -9,11 +10,7 @@ import Link from "next/link";
 export default async function TripDetailPage({ params }) {
   const session = await getServerSession(authOptions);
     if (!session?.accessToken) {
-      return (
-        <div style={{ padding: 20 }}>
-          Zaloguj się aby obejrzeć szczegóły wycieczki
-        </div>
-      );
+        redirect('/login')
     }
 
   const tripId = await params.id;
