@@ -26,6 +26,21 @@ export default function AddTripPage() {
       return;
     }
 
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (start > end) {
+      alert("Data rozpoczęcia nie może być późniejsza niż data zakończenia.");
+      return;
+    }
+
+    if (start < today) {
+      alert("Data rozpoczęcia nie może być wcześniejsza niż dzisiejsza data.");
+      return;
+    }
+
     const payload = {
       name,
       description,
@@ -63,7 +78,8 @@ export default function AddTripPage() {
   return (
     <div
       style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1501785888041-af3ef285b470")',
+        backgroundImage:
+          'url("https://images.unsplash.com/photo-1501785888041-af3ef285b470")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -94,7 +110,6 @@ export default function AddTripPage() {
         </h2>
 
         <form onSubmit={handleSubmit}>
-
           <div>
             <label htmlFor="name">Nazwa</label>
             <input
@@ -112,7 +127,7 @@ export default function AddTripPage() {
             <label htmlFor="description">Opis</label>
             <textarea
               id="description"
-              value={description} 
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Opisz plan wycieczki, atrakcje, noclegi itp."
               required
@@ -228,7 +243,8 @@ export default function AddTripPage() {
           </button>
 
           <style jsx>{`
-            input, textarea {
+            input,
+            textarea {
               border: 3px solid #000;
               padding: 12px;
               font-size: 14px;
@@ -236,13 +252,15 @@ export default function AddTripPage() {
               width: 100%;
             }
 
-            input:focus, textarea:focus {
+            input:focus,
+            textarea:focus {
               border-color: #139c8a;
               outline: none;
               box-shadow: 0 0 0 2px rgba(19, 156, 138, 0.2);
             }
 
-            input:hover, textarea:hover {
+            input:hover,
+            textarea:hover {
               border-color: #139c8a;
             }
 
@@ -254,7 +272,6 @@ export default function AddTripPage() {
               font-weight: 600;
             }
           `}</style>
-
         </form>
       </div>
     </div>
