@@ -1,52 +1,55 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import TripCard from "../components/TripCard";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth/next";
 
-export default async function HomePage() {
+export default async function MyTripsPage() {
   const session = await getServerSession(authOptions);
   if (!session?.accessToken) {
-    return (
-      <div style={{ padding: 20 }}>
-        Zaloguj się aby zobaczyć swoje wycieczki
-      </div>
-    );
+    return <div style={{ padding: 20 }}>Zaloguj się, aby zobaczyć swoje podróże.</div>;
   }
-  
-  const data = await fetch(process.env.BASE_URL + "/api/trip/mine", {
-    cache: "no-store",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${session.accessToken}`,
-    },
-  })
-  const trips = await data.json()
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${session.accessToken}`,
+  };
+
+  const [userRes, participantRes] = await Promise.all([
+    fetch(process.env.BASE_URL + "/api/user/current", {
+      cache: "no-store",
+      headers,
+    }),
+    fetch(process.env.BASE_URL + "/api/trip/mine", {
+      cache: "no-store",
+      headers,
+    }),
+  ]);
+
+  const currentUser = await userRes.json();
+  const allTrips = await participantRes.json();
+
+  const organizedTrips = allTrips.filter(trip => trip.owner?.id === currentUser.id);
+  const participantTrips = allTrips.filter(trip => trip.owner?.id !== currentUser.id);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1
-        style={{
-          fontSize: "40px",
-          marginBottom: "20px",
-          textAlign: "center",
-          fontFamily: "Arial, sans-serif",
-          fontWeight: "bold",
-          color: "#000",
-          textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
-          letterSpacing: "0.5px",
-        }}
-      >
-        Najpopularniejsze podróże - dołącz do wspólnej przygody!
-      </h1>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: "24px",
-        }}
-      >
-        {trips.map((trip, index) => (
-          <TripCard key={index} trip={trip} />
-        ))}
+    <div style={{ display: "flex", padding: "20px", gap: "20px" }}>
+      {/* Lewa kolumna */}
+      <div style={{ flex: 1, borderRight: "5px solid #139c8a", paddingRight: "20px" }}>
+        <h2 style={{ textAlign: "center", marginBottom: "25px", color: "black", fontSize: "20px", fontWeight: "bold" }}>Uczestniczysz</h2>
+        {participantTrips.length > 0 ? (
+          participantTrips.map((trip) => <TripCard key={trip.id} trip={trip} />)
+        ) : (
+          <p style={{ textAlign: "center", fontStyle: "italic" }}>Nie bierzesz udziału w żadnej wycieczce!</p>
+        )}
+      </div>
+
+      {/* Prawa kolumna */}
+      <div style={{ flex: 1, paddingLeft: "20px" }}>
+        <h2 style={{ textAlign: "center", marginBottom: "25px", color: "black", fontSize: "20px", fontWeight: "bold"  }}>Organizujesz</h2>
+        {organizedTrips.length > 0 ? (
+          organizedTrips.map((trip) => <TripCard key={trip.id} trip={trip} />)
+        ) : (
+          <p style={{ textAlign: "center", fontStyle: "italic" }}>Nie organizujesz żadnej wycieczki!</p>
+        )}
       </div>
     </div>
   );
