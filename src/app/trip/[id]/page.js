@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import Image from "next/image";
 import JoinTripButton from "./joinTripButton";
+import LeaveTripButton from "./leaveTripButton";
 import formatDate from "@/app/common/formatDate";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
@@ -81,7 +82,11 @@ export default async function TripDetailPage({ params }) {
         <p><strong>📍 Trasa:</strong> {trip.startLocation} → {trip.endLocation}</p>
 
         <div style={{ marginTop: "20px" }}>
-          <JoinTripButton tripId={tripId} />
+          {trip.members.some((m) => m.id === currentUser.id) ? (
+            <LeaveTripButton tripId={tripId} />
+          ) : (
+            <JoinTripButton tripId={tripId} />
+          )}
           <br></br>
           {currentUser?.id === ownerDetails.id && (
         <Link
