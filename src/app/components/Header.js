@@ -132,45 +132,106 @@ export default function Header() {
             <div style={{ position: "relative" }}>
               <button
                 onClick={() => setShowMenu((prev) => !prev)}
-                style={{ background: "none", border: "none", cursor: "pointer" }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
               >
                 <UserCircle size={36} color="white" />
               </button>
 
               {showMenu && (
-                <div className="user-menu">
-                  <Link
-                    href="/account"
-                    onClick={() => setShowMenu(false)}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "45px",
+                    right: "0",
+                    zIndex: 1000,
+                  }}
+                >
+                  {/* STRZAŁKA */}
+                  <div
                     style={{
-                      display: "block",
-                      padding: "8px",
-                      color: "#333",
-                      textDecoration: "none",
+                      position: "absolute",
+                      top: "-10px",
+                      right: "14px",
+                      width: "0",
+                      height: "0",
+                      borderLeft: "8px solid transparent",
+                      borderRight: "8px solid transparent",
+                      borderBottom: "10px solid white",
+                      zIndex: 1001,
+                    }}
+                  ></div>
+
+                  {/* MENU */}
+                  <div
+                    style={{
+                      backgroundColor: "white",
+                      border: "1px solid #ddd",
+                      borderRadius: "8px",
+                      padding: "10px",
+                      minWidth: "150px",
+                      fontWeight: "bold",
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                      position: "relative",
+                      zIndex: 1000,
+                      textAlign: "center",
                     }}
                   >
-                    Moje konto
-                  </Link>
-                  <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    style={{
-                      display: "block",
-                      width: "100%",
-                      padding: "8px",
-                      background: "none",
-                      border: "none",
-                      textAlign: "left",
-                      color: "#333",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Wyloguj się
-                  </button>
+                    <Link
+                      href="/account"
+                      onClick={() => setShowMenu(false)}
+                      style={{
+                        display: "block",
+                        padding: "4px",
+                        color: "#333",
+                        textDecoration: "none",
+                      }}
+                      onMouseEnter={(e) => (e.target.style.color = "#139c8a")}
+                      onMouseLeave={(e) => (e.target.style.color = "#333")}
+                    >
+                      Moje konto
+                    </Link>
+
+                    <div
+                      style={{
+                        height: "3px",
+                        backgroundColor: "#139c8a",
+                        margin: "8px 0",
+                        border: "none",
+                      }}
+                    ></div>
+
+                    <button
+                      onClick={() => signOut({ callbackUrl: "/" })}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        padding: "4px",
+                        background: "none",
+                        border: "none",
+                        textAlign: "left",
+                        fontWeight: "bold",
+                        color: "#333",
+                        cursor: "pointer",
+                        textAlign: "center",
+                      }}
+                      onMouseEnter={(e) => (e.target.style.color = "#d9534f")}
+                      onMouseLeave={(e) => (e.target.style.color = "#333")}
+                    >
+                      Wyloguj się
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
           ) : (
-            <button onClick={() => signIn(undefined, { callbackUrl: "/login" })} style={buttonStyle}>
+            <button
+              onClick={() => signIn(undefined, { callbackUrl: "/login" })}
+              style={buttonStyle}
+            >
               Zaloguj się
             </button>
           )}
