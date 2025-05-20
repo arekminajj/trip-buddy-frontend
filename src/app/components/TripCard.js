@@ -19,7 +19,7 @@ export default function TripCard({ trip }) {
       style={{
         width: "100%",
         maxWidth: "700px",
-        height: "440px",
+        height: "490px",
         margin: "0 auto 32px auto",
         border: "1px solid #ddd",
         borderRadius: "16px",
@@ -31,7 +31,14 @@ export default function TripCard({ trip }) {
         position: "relative",
       }}
     >
-      <div style={{ width: "100%", height: "230px", position: "relative" }}>
+      <div
+        style={{
+          width: "100%",
+          height: "230px",
+          position: "relative",
+          flexShrink: 0,
+        }}
+      >
         {(isPast || isOngoing) && (
           <div
             style={{
@@ -58,11 +65,29 @@ export default function TripCard({ trip }) {
           src={trip.imageUrl ? trip.imageUrl : "images/default.jpg"}
           alt={`Zdjęcie z ${trip.title}`}
           fill
-          style={{ objectFit: "cover" }}
+          style={{
+            objectFit: "cover",
+            borderTopLeftRadius: "16px",
+            borderTopRightRadius: "16px",
+          }}
           sizes="(max-width: 650px) 100vw, 600px"
         />
       </div>
 
+      {/* Tytuł na górze osobno */}
+      <h2
+        style={{
+          fontSize: "22px",
+          fontWeight: "600",
+          margin: "20px 20px 0 20px", // padding po bokach i na górze
+          lineHeight: "1.4",
+          wordBreak: "break-word",
+        }}
+      >
+        {trip.name}
+      </h2>
+
+      {/* Reszta układu w kolumnach */}
       <div
         style={{
           padding: "20px",
@@ -74,48 +99,39 @@ export default function TripCard({ trip }) {
           justifyContent: "space-between",
         }}
       >
-        {/* Lewa część – tytuł i opis */}
+        {/* Lewa część – data + opis */}
         <div style={{ flex: 1.4 }}>
-          <h2
-            style={{
-              marginBottom: "12px",
-              fontSize: "22px",
-              fontWeight: "600",
-            }}
-          >
-            {trip.name}
-          </h2>
+          <p style={{ margin: "8px 0" }}>
+            📅 <strong>Data:</strong> {formatDate(trip.startDate)} -{" "}
+            {formatDate(trip.endDate)}
+          </p>
 
           <div
             style={{
-              marginTop: "15px",
-              lineHeight: "1.5",
-              maxHeight: "200px",
+              marginTop: "8px",
+              maxHeight: "100px",
               overflowY: "auto",
-              paddingRight: "5px",
+              paddingRight: "4px",
+              fontSize: "14px",
+              lineHeight: "1.4",
+              color: "#333",
             }}
           >
-            <p style={{ margin: "8px 0" }}>
-              📅 <strong>Data:</strong> {formatDate(trip.startDate)} -{" "}
-              {formatDate(trip.endDate)}
-            </p>
             {trip.description}
           </div>
         </div>
 
-        {/* Prawa część – stałe szczegóły */}
+        {/* Prawa część – lokalizacja na wysokości daty */}
         <div
           style={{
             flex: 1,
-            padding: "16px",
-            height: "200px",
             fontSize: "14px",
             display: "flex",
             flexDirection: "column",
-            gap: "7px",
+            justifyContent: "flex-start", // ważne!
           }}
         >
-          <p style={{ margin: "40px 0" }}>
+          <p style={{ margin: "8px 0" }}>
             📍 <strong>Lokalizacja:</strong> {trip.startLocation} -{" "}
             {trip.endLocation}
           </p>
