@@ -167,7 +167,7 @@ export default function Header() {
                       onMouseEnter={(e) => (e.target.style.color = "#139c8a")}
                       onMouseLeave={(e) => (e.target.style.color = "#333")}
                     >
-                      Moje konto
+                      Mój profil
                     </Link>
 
                     <div
