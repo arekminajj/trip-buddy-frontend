@@ -89,9 +89,11 @@ export default async function AccountPage() {
             {(user.firstName || "Nieznane imię") +
               (user.lastName ? " " + user.lastName : "")}
           </h2>
-          {/* <p style={{ margin: "4px 0", color: "#666", fontSize: "15px" }}>
-            {user.email}
-          </p> */}
+          {
+            <p style={{ margin: "4px 0", color: "#666", fontSize: "15px" }}>
+              {user.email}
+            </p>
+          }
         </div>
       </div>
 
