@@ -205,7 +205,7 @@ export default function Header() {
           ) : (
             <button
               onClick={() => signIn(undefined, { callbackUrl: "/login" })}
-              style={buttonStyle}
+              style={{ ...buttonStyle, cursor: "pointer" }}
             >
               Zaloguj się
             </button>

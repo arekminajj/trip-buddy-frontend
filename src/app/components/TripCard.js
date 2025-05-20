@@ -6,14 +6,16 @@ import Image from "next/image";
 import formatDate from "../common/formatDate";
 
 export default function TripCard({ trip }) {
-  const [randomParam, setRandomParam] = useState(null);
+  // const [randomParam, setRandomParam] = useState(null);
   const router = useRouter();
 
-  useEffect(() => {
-    setRandomParam(Math.floor(Math.random() * 1000));
-  }, []);
+  // useEffect(() => {
+  //   setRandomParam(Math.floor(Math.random() * 1000));
+  // }, []);
 
-  if (randomParam === null) return null;
+  // if (randomParam === null) return null;
+
+  const isPast = new Date(trip.endDate) < new Date();
 
   return (
     <div
@@ -33,6 +35,27 @@ export default function TripCard({ trip }) {
       }}
     >
       <div style={{ width: "100%", height: "230px", position: "relative" }}>
+        {isPast && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              color: "white",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "24px",
+              fontWeight: "bold",
+              zIndex: 2,
+            }}
+          >
+            ZAKOŃCZONA
+          </div>
+        )}
         <Image
           src={trip.imageUrl ? trip.imageUrl : "images/default.jpg"}
           alt={`Zdjęcie z ${trip.title}`}
@@ -91,7 +114,7 @@ export default function TripCard({ trip }) {
             fontSize: "14px",
             display: "flex",
             flexDirection: "column",
-            gap: "7px", // Odstęp między elementami
+            gap: "7px",
           }}
         >
           <p style={{ margin: "40px 0" }}>
