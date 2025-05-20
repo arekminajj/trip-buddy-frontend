@@ -6,3 +6,4 @@ export default function formatDate(dateStr) {
       timeZone: "UTC",
     }).format(new Date(dateStr));
   }
+  

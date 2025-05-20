@@ -14,11 +14,10 @@ export default function BrowseTripsPage() {
     const fetchTrips = async () => {
       try {
         const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/trip");
-        if (!res.ok) throw new Error("Failed to fetch trips");
+        if (!res.ok) throw new Error("Nie udało się pobrać wycieczek");
         const data = await res.json();
         setTrips(data);
       } catch (error) {
-        console.error("Error fetching trips:", error);
         setError(error.message);
       } finally {
         setIsLoading(false);

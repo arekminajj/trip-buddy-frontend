@@ -19,7 +19,7 @@ export default function AccountEditForm({ user, accessToken }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("loading");
+    setStatus("ładowanie");
 
     try {
       const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/user", {
@@ -31,7 +31,7 @@ export default function AccountEditForm({ user, accessToken }) {
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error("Update failed");
+      if (!res.ok) throw new Error("Nie udało się zaktualizować");
       setStatus("success");
     } catch (err) {
       console.error(err);

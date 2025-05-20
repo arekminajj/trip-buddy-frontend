@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function RegisterPage() {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -26,7 +25,7 @@ export default function RegisterPage() {
       router.push("/api/auth/signin");
     } else {
       const data = await res.json();
-      setError(data.error || "Registration failed");
+      setError(data.error || "Nie udało się stworzyć konta");
     }
   }
 

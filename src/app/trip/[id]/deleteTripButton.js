@@ -34,7 +34,7 @@ export default function DeleteTripButton({ tripId }) {
         throw new Error(errText || "Błąd podczas usuwania");
       }
 
-      router.push("/mytrips"); // lub inna strona, np. /browse
+      router.push("/mytrips");
     } catch (err) {
       setMessage(err.message);
       setIsError(true);

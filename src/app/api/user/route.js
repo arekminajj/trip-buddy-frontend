@@ -20,7 +20,7 @@ export async function POST(req) {
         if (!res.ok) {
             const errorData = await res.json();
             return NextResponse.json(
-                { error: errorData.error || "Deletion failed" },
+                { error: errorData.error || "Usunięcie konta nie powiodło się" },
                 { status: 400 }
             );
         }
@@ -29,7 +29,7 @@ export async function POST(req) {
     } catch (err) {
         console.error(err);
         return NextResponse.json(
-            { error: "Something went wrong" },
+            { error: "Coś poszło nie tak" },
             { status: 500 }
         );
     }

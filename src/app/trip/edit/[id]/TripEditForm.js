@@ -46,7 +46,7 @@ export default function TripEditForm({ trip, accessToken }) {
       return;
     }
 
-    setStatus("loading");
+    setStatus("ładowanie");
 
     try {
       const payload = {

@@ -70,7 +70,6 @@ export default function AddTripPage() {
 
       router.push("/browse");
     } catch (err) {
-      console.error("AddTrip error:", err);
       alert("Nie udało się dodać ogłoszenia: " + err.message);
     }
   };
@@ -78,8 +77,7 @@ export default function AddTripPage() {
   return (
     <div
       style={{
-        backgroundImage:
-          'url("https://images.unsplash.com/photo-1501785888041-af3ef285b470")',
+        backgroundImage: 'url("images/addtripbg.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
