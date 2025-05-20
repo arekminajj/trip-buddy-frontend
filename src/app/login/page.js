@@ -32,130 +32,169 @@ export default function LoginPage() {
   return (
     <div
       style={{
-        padding: "20px",
-        maxWidth: "400px",
-        margin: "0 auto",
+        minHeight: "100vh",
+        background: "linear-gradient(to right, #e0f7f4, #f9f9f9)",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        padding: "100px 20px 20px 20px",
       }}
     >
-      <h2
-        style={{
-          textAlign: "center",
-          color: "black",
-          fontSize: "20px",
-        }}
-      >
-        Zaloguj się
-      </h2>
+      <style jsx>{`
+        input {
+          border: 2px solid #ccc;
+          transition: all 0.3s ease;
+          font-weight: 500;
+        }
+        input:hover {
+          border-color: #888;
+        }
+        input:focus {
+          border-color: #139c8a;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(19, 156, 138, 0.3);
+        }
+      `}</style>
 
-      <form
-        onSubmit={handleLogin}
+      <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
+          background: "white",
+          padding: "30px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
           maxWidth: "400px",
-          margin: "0 auto",
-          padding: "20px",
+          width: "100%",
         }}
       >
-        <style jsx>{`
-          input {
-            transition: all 0.3s ease;
-          }
-          input:hover {
-            border-color: #888;
-          }
-          input:focus {
-            border-color: #139c8a;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(19, 156, 138, 0.2);
-          }
-        `}</style>
-
-        <div>
-          <label htmlFor="email" style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>
-            Email
-          </label>
-          <input
-            type="text"
-            id="email"
-            value={email}
-            onChange={(e) => setemail(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: "6px",
-              border: "1px solid #ddd",
-              fontSize: "16px",
-              boxSizing: "border-box",
-            }}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password" style={{ display: "block", marginBottom: "5px", fontWeight: "500" }}>
-            Hasło
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: "6px",
-              border: "1px solid #ddd",
-              fontSize: "16px",
-              boxSizing: "border-box",
-            }}
-          />
-        </div>
-
-        {error && (
-          <p style={{ color: "red", textAlign: "center", margin: "0", fontSize: "14px" }}>
-            {error}
-          </p>
-        )}
-
-        <p style={{ textAlign: "center", fontSize: "14px", margin: "10px 0 0 0", color: "#666" }}>
-          Nie masz konta?{" "}
-          <Link
-            href="/register"
-            style={{
-              color: "#139c8a",
-              fontWeight: "bold",
-              textDecoration: "none",
-              ":hover": { textDecoration: "underline" },
-            }}
-          >
-            Zarejestruj się
-          </Link>
-        </p>
-
-        <button
-          type="submit"
+        <h2
           style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "6px",
-            border: "none",
-            backgroundColor: "#139c8a",
-            color: "white",
-            fontSize: "16px",
-            fontWeight: "600",
-            cursor: "pointer",
-            marginTop: "15px",
-            transition: "background-color 0.3s",
+            textAlign: "center",
+            color: "#139c8a",
+            fontSize: "24px",
+            marginBottom: "20px",
+            fontWeight: "bold",
           }}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#0d8a7a")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#139c8a")}
         >
           Zaloguj się
-        </button>
-      </form>
+        </h2>
+
+        <form
+          onSubmit={handleLogin}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+          }}
+        >
+          <div>
+            <label
+              htmlFor="email"
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontWeight: "600",
+              }}
+            >
+              Email
+            </label>
+            <input
+              type="text"
+              id="email"
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
+              required
+              placeholder="Twój email"
+              style={{
+                width: "100%",
+                padding: "12px",
+                borderRadius: "8px",
+                fontSize: "16px",
+              }}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontWeight: "600",
+              }}
+            >
+              Hasło
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Wprowadź hasło"
+              style={{
+                width: "100%",
+                padding: "12px",
+                borderRadius: "8px",
+                fontSize: "16px",
+              }}
+            />
+          </div>
+
+          {error && (
+            <p
+              style={{
+                color: "red",
+                textAlign: "center",
+                fontSize: "14px",
+                marginTop: "-5px",
+              }}
+            >
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "12px",
+              borderRadius: "8px",
+              border: "none",
+              backgroundColor: "#139c8a",
+              color: "white",
+              fontSize: "16px",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "background-color 0.3s",
+            }}
+            onMouseOver={(e) => (e.target.style.backgroundColor = "#0d8a7a")}
+            onMouseOut={(e) => (e.target.style.backgroundColor = "#139c8a")}
+          >
+            Zaloguj się
+          </button>
+
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "14px",
+              marginTop: "10px",
+              color: "#666",
+            }}
+          >
+            Nie masz konta?{" "}
+            <Link
+              href="/register"
+              style={{
+                color: "#139c8a",
+                fontWeight: "bold",
+                textDecoration: "none",
+              }}
+            >
+              Zarejestruj się
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
