@@ -23,7 +23,7 @@ export default async function AccountEditPage() {
       style={{
         minHeight: "100vh",
         backgroundImage:
-          'url("https://images.unsplash.com/photo-1620812097331-ff636155488f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YWJzdHJhY3QlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww")',
+          'url("/images/editaccountbg.avif")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         display: "flex",

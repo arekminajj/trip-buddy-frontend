@@ -64,7 +64,7 @@ export default async function TripDetailPage({ params }) {
       style={{
         padding: "40px 20px",
         minHeight: "100vh",
-        backgroundImage: `url("https://images.unsplash.com/photo-1497290756760-23ac55edf36f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c2VhfGVufDB8fDB8fHww")`,
+        backgroundImage: `url("/images/tripdetailsbg.avif")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

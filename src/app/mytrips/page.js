@@ -43,7 +43,7 @@ export default async function MyTripsPage() {
       style={{
         minHeight: "100vh",
         backgroundImage:
-          "url('https://images.unsplash.com/photo-1520299607509-dcd935f9a839?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+          "url('/images/mytripsbg.avif')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

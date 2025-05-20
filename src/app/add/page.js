@@ -78,7 +78,7 @@ export default function AddTripPage() {
     <div
       style={{
         backgroundImage:
-          'url("https://images.unsplash.com/photo-1501785888041-af3ef285b470")',
+          'url("/images/addtripbg.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

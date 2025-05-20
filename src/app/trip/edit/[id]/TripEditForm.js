@@ -83,7 +83,7 @@ export default function TripEditForm({ trip, accessToken }) {
     <div
       style={{
         backgroundImage:
-          'url("https://images.unsplash.com/photo-1519327232521-1ea2c736d34d?ixlib=rb-4.1.0&w=1920&q=80")',
+          'url("/images/tripeditbg.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
