@@ -34,31 +34,6 @@ export default function Header() {
 
   return (
     <>
-      <style jsx>{`
-        .user-menu {
-          position: absolute;
-          top: 45px;
-          right: -3px;
-          background-color: white;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          padding: 10px;
-          min-width: 150px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          z-index: 10;
-        }
-
-        .user-menu::before {
-          content: "";
-          position: absolute;
-          top: -10px;
-          right: 12px;
-          border-left: 8px solid transparent;
-          border-right: 8px solid transparent;
-          border-bottom: 10px solid white;
-        }
-      `}</style>
-
       <header
         style={{
           position: "relative",
@@ -145,7 +120,7 @@ export default function Header() {
                 <div
                   style={{
                     position: "absolute",
-                    top: "45px",
+                    top: "46px",
                     right: "0",
                     zIndex: 1000,
                   }}
@@ -155,7 +130,7 @@ export default function Header() {
                     style={{
                       position: "absolute",
                       top: "-10px",
-                      right: "14px",
+                      right: "10px",
                       width: "0",
                       height: "0",
                       borderLeft: "8px solid transparent",
@@ -172,7 +147,7 @@ export default function Header() {
                       border: "1px solid #ddd",
                       borderRadius: "8px",
                       padding: "10px",
-                      minWidth: "150px",
+                      minWidth: "140px",
                       fontWeight: "bold",
                       boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                       position: "relative",
