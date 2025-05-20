@@ -26,7 +26,7 @@ export default function LeaveTripButton({ tripId }) {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/trip/${tripId}/leave`,
         {
-          method: "DELETE",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${session.accessToken}`,
