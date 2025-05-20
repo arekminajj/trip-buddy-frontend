@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 
-export async function POST(req) {
+export async function DELETE(req) {
     const session = await getServerSession(authOptions);
     if (!session?.accessToken) {
         return NextResponse.redirect("/login");
@@ -25,7 +25,7 @@ export async function POST(req) {
             );
         }
 
-        return NextResponse.redirect(new URL("/api/auth/signout", req.url));
+        return NextResponse.json({ success: true });
     } catch (err) {
         console.error(err);
         return NextResponse.json(

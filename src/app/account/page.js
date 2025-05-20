@@ -2,6 +2,7 @@ import Image from "next/image";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
+import DeleteButton from "./DeleteButton";
 
 export default async function AccountPage() {
     const session = await getServerSession(authOptions);
@@ -129,26 +130,7 @@ export default async function AccountPage() {
                     Edytuj profil
                 </button>
             </Link>
-
-            <form
-                action="/api/user"
-                method="POST"
-            >
-                <button
-                    type="submit"
-                    style={{
-                        marginTop: "30px",
-                        padding: "10px 20px",
-                        backgroundColor: "#e63946",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "8px",
-                        cursor: "pointer",
-                    }}
-                >
-                    Usuń konto
-                </button>
-            </form>
+            <DeleteButton />
         </div>
     );
 }
