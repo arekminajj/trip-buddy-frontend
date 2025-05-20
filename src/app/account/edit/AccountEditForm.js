@@ -35,10 +35,7 @@ export default function AccountEditForm({ user, accessToken }) {
 
       if (!res.ok) throw new Error("Nie udało się zaktualizować");
       setStatus("success");
-
-      setTimeout(() => {
-        router.push("/account");
-      }, 1000);
+      router.push("/account");
     } catch (err) {
       console.error(err);
       setStatus("error");
@@ -164,7 +161,7 @@ export default function AccountEditForm({ user, accessToken }) {
 
       {status === "loading" && <p>Aktualizowanie…</p>}
       {status === "success" && (
-        <p style={{ color: "green" }}>Zaktualizowano! Przekierowanie...</p>
+        <p style={{ color: "green" }}>Zaktualizowano!</p>
       )}
       {status === "error" && <p style={{ color: "red" }}>Błąd przy zapisie.</p>}
     </form>

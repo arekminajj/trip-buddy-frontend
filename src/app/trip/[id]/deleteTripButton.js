@@ -4,7 +4,11 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function DeleteTripButton({ tripId }) {
+export default function DeleteTripButton({
+  tripId,
+  width = "180px",
+  height = "45px",
+}) {
   const { data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +48,7 @@ export default function DeleteTripButton({ tripId }) {
   };
 
   return (
-    <div style={{ marginTop: "10px" }}>
+    <div>
       {message && (
         <p style={{ color: isError ? "red" : "green", marginBottom: "10px" }}>
           {message}
@@ -53,9 +57,13 @@ export default function DeleteTripButton({ tripId }) {
       <button
         onClick={handleDelete}
         disabled={isLoading}
+        onMouseOver={(e) => (e.target.style.backgroundColor = "#c82333")}
+        onMouseOut={(e) => (e.target.style.backgroundColor = "#dc3545")}
         style={{
           padding: "10px 20px",
           backgroundColor: "#dc3545",
+          widows: width,
+          height: height,
           color: "white",
           border: "none",
           borderRadius: "6px",

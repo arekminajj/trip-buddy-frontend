@@ -4,7 +4,11 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function LeaveTripButton({ tripId }) {
+export default function LeaveTripButton({
+  tripId,
+  width = "180px",
+  height = "45px",
+}) {
   const { data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -60,10 +64,14 @@ export default function LeaveTripButton({ tripId }) {
       <button
         onClick={handleLeave}
         disabled={isLoading}
+        onMouseOver={(e) => (e.target.style.backgroundColor = "#c9302c")}
+        onMouseOut={(e) => (e.target.style.backgroundColor = "#d9534f")}
         style={{
           padding: "10px 20px",
           backgroundColor: "#d9534f",
           color: "white",
+          width: width,
+          height: height,
           border: "none",
           borderRadius: "5px",
           cursor: isLoading ? "not-allowed" : "pointer",
