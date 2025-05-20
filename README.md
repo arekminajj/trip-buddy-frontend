@@ -24,7 +24,7 @@ BASE_URL=http://localhost:5000
 NEXTAUTH_SECRET=<your-nextauth-secret>
 ```
 
-- `BASE_URL` should be the URL of your backend (usually `http://localhost:5000` if you are running it locally).
+- `BASE_URL` should be the URL of your backend.
 - `NEXTAUTH_SECRET` is used for securing JWT tokens in authentication. You can generate a random secret using:
 
     ```bash
