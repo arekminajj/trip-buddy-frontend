@@ -49,7 +49,7 @@ export default function JoinTripButton({ tripId }) {
       }
 
       if (res.ok) {
-        setMessage(data.message || 'Dołączyłeś do wycieczki!');
+        setMessage('Dołączyłeś do wycieczki!');
         setIsError(false);
         router.refresh();
       } else {

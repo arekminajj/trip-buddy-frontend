@@ -34,51 +34,87 @@ export default function BrowseTripsPage() {
       trip.startLocation?.toLowerCase().includes(searchTerm) ||
       trip.endLocation?.toLowerCase().includes(searchTerm);
 
-    const tripDate = new Date(trip.startDate);
-    const selected = new Date(selectedDate);
+    const selected = new Date(selectedDate + "T00:00:00Z");
     const hasDateMatch = selectedDate
-      ? tripDate.toDateString() === selected.toDateString()
+      ? selected >= new Date(trip.startDate) && selected <= new Date(trip.endDate)
       : true;
 
     return hasLocationMatch && hasDateMatch;
   });
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
+    <div style={{ padding: "20px" }}>
+      <h1
+        style={{
+          fontSize: "40px",
+          marginBottom: "20px",
+          textAlign: "center",
+          fontFamily: "Arial, sans-serif",
+          fontWeight: "bold",
+          color: "#000",
+          textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+          letterSpacing: "0.5px",
+        }}
+      >
         Znajdź podróż
       </h1>
 
-      <div className="flex flex-col md:flex-row justify-center gap-4 mb-8">
+      <div
+        style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "20px",
+            justifyContent: "center",
+            marginBottom: "40px",
+            flexWrap: "wrap",
+          }}
+      >
         <input
           type="text"
           placeholder="Filtruj po lokalizacji (np. Tatry, Ustka...)"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="w-full md:w-80 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          style={{
+            padding: "12px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            fontSize: "16px",
+            width: "280px",
+          }}
         />
 
         <input
           type="date"
           value={selectedDate}
           onChange={(e) => setSelectedDate(e.target.value)}
-          className="p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          style={{
+            padding: "12px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            fontSize: "16px",
+            width: "200px",
+          }}
         />
       </div>
 
-
       {error ? (
-        <p className="text-red-500 text-center">{error}</p>
+        <p style={{ color: "red", textAlign: "center" }}>{error}</p>
       ) : isLoading ? (
-        <p className="text-center text-gray-600">Ładowanie danych...</p>
+        <p style={{ textAlign: "center", color: "#666" }}>Ładowanie danych...</p>
       ) : filteredTrips.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "24px",
+          }}
+        >
           {filteredTrips.map((trip) => (
             <TripCard key={trip.id} trip={trip} />
           ))}
         </div>
       ) : (
-        <p className="text-center text-gray-600">
+        <p style={{ textAlign: "center", color: "#666" }}>
           Brak wyników dla wybranych kryteriów.
         </p>
       )}

@@ -19,8 +19,8 @@ export default function TripCard({ trip }) {
     <div
       style={{
         width: "100%",
-        maxWidth: "650px",
-        height: "400px",
+        maxWidth: "700px",
+        height: "440px",
         margin: "0 auto 32px auto",
         border: "1px solid #ddd",
         borderRadius: "16px",

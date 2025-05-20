@@ -1,42 +1,57 @@
-import { redirect } from 'next/navigation'
+import { redirect } from "next/navigation";
 import Image from "next/image";
 import JoinTripButton from "./joinTripButton";
+import LeaveTripButton from "./leaveTripButton";
+import DeleteTripButton from "./deleteTripButton";
 import formatDate from "@/app/common/formatDate";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 
-
 export default async function TripDetailPage({ params }) {
   const session = await getServerSession(authOptions);
-    if (!session?.accessToken) {
-        redirect('/login')
-    }
+  if (!session?.accessToken) {
+    redirect("/login");
+  }
 
-  const tripId = await params.id;
+  const tripId = params.id;
 
-  const tripRes = await fetch(`${process.env.BASE_URL}/api/trip/${tripId}`, { cache: 'no-store' });
+  const tripRes = await fetch(`${process.env.BASE_URL}/api/trip/${tripId}`, {
+    cache: "no-store",
+  });
+  if (!tripRes.ok)
+    return <div style={{ padding: 20 }}>Nie znaleziono wycieczki.</div>;
   const trip = await tripRes.json();
 
   let ownerDetails = null;
   if (trip.owner?.id) {
-    const ownerRes = await fetch(`${process.env.BASE_URL}/api/user?id=${trip.owner.id}`, { cache: 'no-store' });
+    const ownerRes = await fetch(
+      `${process.env.BASE_URL}/api/user?id=${trip.owner.id}`,
+      { cache: "no-store" }
+    );
     ownerDetails = await ownerRes.json();
   }
 
-  const currentUserRes = await fetch(process.env.BASE_URL + `/api/user/current`, {
-    cache: "no-store",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${session.accessToken}`,
-    },
-  });
+  const currentUserRes = await fetch(
+    `${process.env.BASE_URL}/api/user/current`,
+    {
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+    }
+  );
 
   if (!currentUserRes.ok) {
-    return <div style={{ padding: 20 }}>Błąd podczas ładowania użytkownika.</div>;
+    return (
+      <div style={{ padding: 20 }}>Błąd podczas ładowania użytkownika.</div>
+    );
   }
 
   const currentUser = await currentUserRes.json();
+  const isOwner = currentUser.id === ownerDetails?.id;
+  const isMember = trip.members?.some((m) => m.id === currentUser.id);
 
   return (
     <div style={{ padding: "20px" }}>
@@ -65,7 +80,14 @@ export default async function TripDetailPage({ params }) {
           boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
         }}
       >
-        <div style={{ position: "relative", width: "100%", height: "400px", marginBottom: "20px" }}>
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "400px",
+            marginBottom: "20px",
+          }}
+        >
           <Image
             src={trip.imageUrl || "/images/default.jpg"}
             alt="Trip image"
@@ -74,38 +96,61 @@ export default async function TripDetailPage({ params }) {
           />
         </div>
 
-        <p><strong>Opis:</strong> {trip.description}</p>
-        <p><strong>📅 Termin:</strong> {formatDate(trip.startDate)} - {formatDate(trip.endDate)}</p>
-        <p><strong>💵 Cena:</strong> {trip.price} PLN</p>
-        <p><strong>🧍‍♂️ Maksymalna liczba uczestników:</strong> {trip.maxMembers}</p>
-        <p><strong>📍 Trasa:</strong> {trip.startLocation} → {trip.endLocation}</p>
+        <p>
+          <strong>Opis:</strong> {trip.description}
+        </p>
+        <p>
+          <strong>📅 Termin:</strong> {formatDate(trip.startDate)} -{" "}
+          {formatDate(trip.endDate)}
+        </p>
+        <p>
+          <strong>💵 Cena:</strong> {trip.price} PLN
+        </p>
+        <p>
+          <strong>🧍‍♂️ Maksymalna liczba uczestników:</strong> {trip.maxMembers}
+        </p>
+        <p>
+          <strong>📍 Trasa:</strong> {trip.startLocation} → {trip.endLocation}
+        </p>
 
         <div style={{ marginTop: "20px" }}>
-          <JoinTripButton tripId={tripId} />
-          <br></br>
-          {currentUser?.id === ownerDetails.id && (
-        <Link
-          href={`/trip/edit/${trip.id}`}
-          passHref
-        >
-          <button
+          {isOwner ? (
+            <>
+              <Link href={`/trip/edit/${trip.id}`} passHref>
+                <button
+                  style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#2183f2 ",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Edytuj wycieczkę
+                </button>
+              </Link>
+              <DeleteTripButton tripId={tripId} />
+            </>
+          ) : isMember ? (
+            <LeaveTripButton tripId={tripId} />
+          ) : (
+            <JoinTripButton tripId={tripId} />
+          )}
+        </div>
+
+        {ownerDetails && (
+          <div
             style={{
-              padding: "10px 20px",
-              backgroundColor: "#139c8a",
-              color: "#fff",
-              border: "none",
-              borderRadius: "6px",
-              cursor: "pointer",
+              marginTop: "30px",
+              paddingTop: "20px",
+              borderTop: "1px solid #ccc",
             }}
           >
-            Edytuj wycieczkę
-          </button>
-        </Link>
-      )}
-        </div>
-        {ownerDetails && (
-          <div style={{ marginTop: "30px", paddingTop: "20px", borderTop: "1px solid #ccc" }}>
-            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Organizator wycieczki</h2>
+            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>
+              Organizator wycieczki
+            </h2>
             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
               <Image
                 src={ownerDetails.profilePictureURI || "/images/avatar.jpg"}
@@ -115,16 +160,30 @@ export default async function TripDetailPage({ params }) {
                 style={{ borderRadius: "50%", objectFit: "cover" }}
               />
               <div>
-                <p><strong>{trip.owner.userName}</strong></p>
-                {ownerDetails.bio && <p style={{ fontStyle: "italic", color: "#666" }}>{ownerDetails.bio}</p>}
+                <p>
+                  <strong>{trip.owner.userName}</strong>
+                </p>
+                {ownerDetails.bio && (
+                  <p style={{ fontStyle: "italic", color: "#666" }}>
+                    {ownerDetails.bio}
+                  </p>
+                )}
               </div>
             </div>
           </div>
         )}
 
         {trip.members && trip.members.length > 0 && (
-          <div style={{ marginTop: "30px", paddingTop: "20px", borderTop: "1px solid #ccc" }}>
-            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>Uczestnicy wyprawy</h2>
+          <div
+            style={{
+              marginTop: "30px",
+              paddingTop: "20px",
+              borderTop: "1px solid #ccc",
+            }}
+          >
+            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>
+              Uczestnicy wyprawy
+            </h2>
             <ul style={{ listStyle: "none", padding: 0 }}>
               {trip.members.map((member) => (
                 <li
@@ -150,7 +209,6 @@ export default async function TripDetailPage({ params }) {
             </ul>
           </div>
         )}
-
       </div>
     </div>
   );
