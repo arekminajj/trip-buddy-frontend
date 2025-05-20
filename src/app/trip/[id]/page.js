@@ -50,6 +50,11 @@ export default async function TripDetailPage({ params }) {
     );
   }
 
+  const now = new Date();
+  const start = new Date(trip.startDate);
+  const end = new Date(trip.endDate);
+  const isOngoingOrPast = now >= start;
+
   const currentUser = await currentUserRes.json();
   const isOwner = currentUser.id === ownerDetails?.id;
   const isMember = trip.members?.some((m) => m.id === currentUser.id);
@@ -148,14 +153,16 @@ export default async function TripDetailPage({ params }) {
         >
           {isOwner ? (
             <>
-              <EditTripButton tripId={trip.id} width="180px" height="45px" />
+              {new Date(trip.startDate) > new Date() && (
+                <EditTripButton tripId={trip.id} width="180px" height="45px" />
+              )}
               <DeleteTripButton tripId={tripId} width="180px" height="45px" />
             </>
           ) : isMember ? (
             <LeaveTripButton tripId={tripId} width="220px" height="45px" />
-          ) : (
+          ) : new Date(trip.startDate) > new Date() ? (
             <JoinTripButton tripId={tripId} width="220px" height="45px" />
-          )}
+          ) : null}
         </div>
 
         {ownerDetails && (

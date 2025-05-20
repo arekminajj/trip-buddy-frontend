@@ -6,16 +6,13 @@ import Image from "next/image";
 import formatDate from "../common/formatDate";
 
 export default function TripCard({ trip }) {
-  // const [randomParam, setRandomParam] = useState(null);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   setRandomParam(Math.floor(Math.random() * 1000));
-  // }, []);
-
-  // if (randomParam === null) return null;
-
-  const isPast = new Date(trip.endDate) < new Date();
+  const now = new Date();
+  const start = new Date(trip.startDate);
+  const end = new Date(trip.endDate);
+  const isPast = end < now;
+  const isOngoing = start <= now && now <= end;
 
   return (
     <div
@@ -35,7 +32,7 @@ export default function TripCard({ trip }) {
       }}
     >
       <div style={{ width: "100%", height: "230px", position: "relative" }}>
-        {isPast && (
+        {(isPast || isOngoing) && (
           <div
             style={{
               position: "absolute",
@@ -53,9 +50,10 @@ export default function TripCard({ trip }) {
               zIndex: 2,
             }}
           >
-            ZAKOŃCZONA
+            {isPast ? "ZAKOŃCZONA" : "TRWA"}
           </div>
         )}
+
         <Image
           src={trip.imageUrl ? trip.imageUrl : "images/default.jpg"}
           alt={`Zdjęcie z ${trip.title}`}
