@@ -218,7 +218,7 @@ export default function AddTripPage() {
               id="imageUrl"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="np. https://strzalka.v.prz.edu.pl/thumb/Q7N2ElcnIzdg5XJWBEb2k8ZHx-ZUk,core_user/16993/RDVQCfVQJNwFlAA,dsrzalka.jpg"
+              placeholder="adres URL obrazka"
               required
               style={{ width: "100%", marginBottom: "25px" }}
             />

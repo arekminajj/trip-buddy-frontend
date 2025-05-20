@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import TripCard from "../components/TripCard";
 
 export default function BrowseTripsPage() {

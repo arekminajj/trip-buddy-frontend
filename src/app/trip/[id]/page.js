@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
+
 import JoinTripButton from "./joinTripButton";
 import LeaveTripButton from "./leaveTripButton";
 import DeleteTripButton from "./deleteTripButton";
@@ -7,7 +8,6 @@ import EditTripButton from "./editTripButton";
 import formatDate from "@/app/common/formatDate";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
-import Link from "next/link";
 
 export default async function TripDetailPage({ params }) {
   const session = await getServerSession(authOptions);

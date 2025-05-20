@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
 import formatDate from "../common/formatDate";
 
 export default function TripCard({ trip }) {

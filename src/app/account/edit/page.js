@@ -1,6 +1,7 @@
+import AccountEditForm from "./AccountEditForm";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import AccountEditForm from "./AccountEditForm";
 
 export default async function AccountEditPage() {
   const session = await getServerSession(authOptions);

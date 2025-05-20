@@ -1,7 +1,7 @@
 import Image from "next/image";
+
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
-import Link from "next/link";
 import DeleteButton from "./DeleteButton";
 import EditProfileButton from "./EditProfileButton";
 
