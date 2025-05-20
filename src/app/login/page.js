@@ -25,7 +25,7 @@ export default function LoginPage() {
     if (res?.error) {
       setError("Nieprawidłowy login lub hasło");
     } else {
-      router.push("/"); // login successful -> redirect home
+      router.push("/");
     }
   };
 

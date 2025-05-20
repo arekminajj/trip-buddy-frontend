@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
       <body>
         <SessionWrapper>
           <Header />
-          <main style={{ padding: "20px" }}>{children}</main>
+          <main style={{ padding: 0, margin: 0 }}>{children}</main>
         </SessionWrapper>
       </body>
     </html>
