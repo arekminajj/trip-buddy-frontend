@@ -75,7 +75,8 @@ export default function TripCard({ trip }) {
             }}
           >
             <p style={{ margin: "8px 0" }}>
-              📅 <strong>Data:</strong> {formatDate(trip.startDate)} - {formatDate(trip.endDate)}
+              📅 <strong>Data:</strong> {formatDate(trip.startDate)} -{" "}
+              {formatDate(trip.endDate)}
             </p>
             {trip.description}
           </div>
@@ -94,7 +95,8 @@ export default function TripCard({ trip }) {
           }}
         >
           <p style={{ margin: "40px 0" }}>
-            📍 <strong>Lokalizacja:</strong> {trip.startLocation} - {trip.endLocation}
+            📍 <strong>Lokalizacja:</strong> {trip.startLocation} -{" "}
+            {trip.endLocation}
           </p>
         </div>
       </div>
@@ -114,6 +116,14 @@ export default function TripCard({ trip }) {
           zIndex: 1,
         }}
         onClick={() => router.push(`/trip/${trip.id}`)}
+        onMouseOver={(e) => {
+          e.target.style.backgroundColor = "#139c8a";
+          e.target.style.color = "white";
+        }}
+        onMouseOut={(e) => {
+          e.target.style.backgroundColor = "white";
+          e.target.style.color = "#000";
+        }}
       >
         Zobacz szczegóły
       </div>
