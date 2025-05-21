@@ -77,13 +77,12 @@ export default function AddTripPage() {
   return (
     <div
       style={{
-        backgroundImage:
-          'url("/images/addtripbg.jpg")',
+        backgroundImage: 'url("/images/addtripbg.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         minHeight: "100vh",
-        padding: "60px 20px",
+        padding: "35px 20px",
       }}
     >
       <div

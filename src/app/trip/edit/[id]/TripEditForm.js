@@ -82,13 +82,12 @@ export default function TripEditForm({ trip, accessToken }) {
   return (
     <div
       style={{
-        backgroundImage:
-          'url("/images/tripeditbg.jpg")',
+        backgroundImage: 'url("/images/tripeditbg.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         minHeight: "100vh",
-        padding: "60px 20px",
+        padding: "35px 20px",
       }}
     >
       <div

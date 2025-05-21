@@ -48,7 +48,7 @@ export default async function MyTripsPage() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        padding: "40px 20px",
+        padding: "20px 20px",
       }}
     >
       <div
