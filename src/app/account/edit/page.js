@@ -23,14 +23,13 @@ export default async function AccountEditPage() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundImage:
-          'url("/images/editaccountbg.avif")',
+        backgroundImage: 'url("/images/editaccountbg.avif")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         display: "flex",
         alignItems: "flex-start",
         justifyContent: "center",
-        padding: "40px 20px",
+        padding: "0px 20px",
       }}
     >
       <AccountEditForm user={user} accessToken={session.accessToken} />

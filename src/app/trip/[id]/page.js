@@ -6,8 +6,20 @@ import LeaveTripButton from "./leaveTripButton";
 import DeleteTripButton from "./deleteTripButton";
 import EditTripButton from "./editTripButton";
 import formatDate from "@/app/common/formatDate";
+import LeafletMap from "./LeafletMap";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
+
+async function getCoordinates(location) {
+  const res = await fetch(
+    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
+  );
+  const data = await res.json();
+  if (data?.[0]) {
+    return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+  }
+  return null;
+}
 
 export default async function TripDetailPage({ params }) {
   const session = await getServerSession(authOptions);
@@ -58,6 +70,9 @@ export default async function TripDetailPage({ params }) {
   const currentUser = await currentUserRes.json();
   const isOwner = currentUser.id === ownerDetails?.id;
   const isMember = trip.members?.some((m) => m.id === currentUser.id);
+
+  const startCoords = await getCoordinates(trip.startLocation);
+  const endCoords = await getCoordinates(trip.endLocation);
 
   return (
     <div
@@ -142,15 +157,9 @@ export default async function TripDetailPage({ params }) {
           </p>
         </div>
 
-        <iframe
-          width={600}
-          height={450}
-          style={{ border: 0 }}
-          loading="lazy"
-          allowFullScreen
-          referrerPolicy="no-referrer-when-downgrade"
-          src={"https://www.google.com/maps/embed/v1/place?key=" + process.env.MAPS_API_KEY +"&q=" + trip.endLocation}
-        ></iframe>
+        {startCoords && endCoords && (
+          <LeafletMap startCoords={startCoords} endCoords={endCoords} />
+        )}
 
         <div
           style={{
