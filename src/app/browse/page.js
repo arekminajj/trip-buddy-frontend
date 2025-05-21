@@ -34,10 +34,10 @@ export default function BrowseTripsPage() {
       trip.startLocation?.toLowerCase().includes(searchTerm) ||
       trip.endLocation?.toLowerCase().includes(searchTerm);
 
-    const selected = new Date(selectedDate + "T00:00:00Z");
+    const selected = new Date(selectedDate);
     const hasDateMatch = selectedDate
-      ? selected >= new Date(trip.startDate) &&
-        selected <= new Date(trip.endDate)
+      ? selected >= new Date(new Date(trip.startDate).setHours(0, 0, 0, 0)) &&
+        selected <= new Date(new Date(trip.endDate).setHours(23, 59, 59, 999))
       : true;
 
     return hasLocationMatch && hasDateMatch;
