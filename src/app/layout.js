@@ -10,6 +10,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pl">
+      <head>
+        <link rel="icon" href="/images/favicon.ico" />
+        <title>TripBuddy</title>
+        <meta
+          name="description"
+          content="Aplikacja do oceniania i planowania wyjazdów"
+        />
+      </head>
       <body>
         <SessionWrapper>
           <Header />
