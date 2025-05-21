@@ -32,164 +32,170 @@ export default function RegisterPage() {
   return (
     <div
       style={{
-        padding: "20px",
-        maxWidth: "400px",
-        margin: "0 auto",
+        minHeight: "100vh",
+        background: "linear-gradient(to right, #e0f7f4, #f9f9f9)",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        padding: "80px 20px 20px 20px",
       }}
     >
-      <h2
-        style={{
-          textAlign: "center",
-          color: "black",
-          fontSize: "20px",
-        }}
-      >
-        Zarejestruj się
-      </h2>
+      <style jsx>{`
+        input {
+          border: 2px solid #ccc;
+          transition: all 0.3s ease;
+          font-weight: 500;
+        }
+        input:hover {
+          border-color: #888;
+        }
+        input:focus {
+          border-color: #139c8a;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(19, 156, 138, 0.3);
+        }
+      `}</style>
 
-      <form
-        onSubmit={handleRegister}
+      <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
+          background: "white",
+          padding: "30px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
           maxWidth: "400px",
-          margin: "0 auto",
+          width: "100%",
         }}
       >
-        {/* Styl dla wszystkich inputów */}
-        <style jsx>{`
-          input {
-            transition: all 0.3s ease;
-          }
-          input:hover {
-            border-color: #888;
-          }
-          input:focus {
-            border-color: #139c8a;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(19, 156, 138, 0.2);
-          }
-        `}</style>
-
-        {/* Pole Email */}
-        <div>
-          <label
-            htmlFor="email"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "500",
-            }}
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: "6px",
-              border: "1px solid #ddd",
-              fontSize: "16px",
-              boxSizing: "border-box",
-            }}
-          />
-        </div>
-
-        {/* Pole Hasło */}
-        <div>
-          <label
-            htmlFor="password"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "500",
-            }}
-          >
-            Hasło
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: "6px",
-              border: "1px solid #ddd",
-              fontSize: "16px",
-              boxSizing: "border-box",
-            }}
-          />
-        </div>
-
-        {/* Komunikaty o błędzie i sukcesie */}
-        {error && (
-          <div
-            style={{
-              color: "red",
-              textAlign: "center",
-              margin: "10px 0",
-            }}
-          >
-            {error}
-          </div>
-        )}
-
-        {/* Link do logowania */}
-        <p
+        <h2
           style={{
             textAlign: "center",
-            fontSize: "14px",
-            margin: "10px 0 0 0",
-            color: "#666",
+            color: "#139c8a",
+            fontSize: "24px",
+            marginBottom: "20px",
+            fontWeight: "bold",
           }}
-        >
-          Masz już konto?{" "}
-          <Link
-            href="/login"
-            style={{
-              color: "#139c8a",
-              fontWeight: "bold",
-              textDecoration: "none",
-              ":hover": {
-                textDecoration: "underline",
-              },
-            }}
-          >
-            Zaloguj się
-          </Link>
-        </p>
-
-        {/* Przycisk Submit */}
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "6px",
-            border: "none",
-            backgroundColor: "#139c8a",
-            color: "white",
-            fontSize: "16px",
-            fontWeight: "600",
-            cursor: "pointer",
-            marginTop: "10px",
-            transition: "background-color 0.3s",
-          }}
-          onMouseOver={(e) => (e.target.style.backgroundColor = "#0d8a7a")}
-          onMouseOut={(e) => (e.target.style.backgroundColor = "#139c8a")}
         >
           Zarejestruj się
-        </button>
-      </form>
+        </h2>
+
+        <form
+          onSubmit={handleRegister}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+          }}
+        >
+          <div>
+            <label
+              htmlFor="email"
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontWeight: "600",
+              }}
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Podaj swój email"
+              style={{
+                width: "100%",
+                padding: "12px",
+                borderRadius: "8px",
+                fontSize: "16px",
+              }}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontWeight: "600",
+              }}
+            >
+              Hasło
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Ustaw swoje hasło"
+              style={{
+                width: "100%",
+                padding: "12px",
+                borderRadius: "8px",
+                fontSize: "16px",
+              }}
+            />
+          </div>
+
+          {error && (
+            <div
+              style={{
+                color: "red",
+                textAlign: "center",
+                fontSize: "14px",
+                marginTop: "-5px",
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "12px",
+              borderRadius: "8px",
+              border: "none",
+              backgroundColor: "#139c8a",
+              color: "white",
+              fontSize: "16px",
+              fontWeight: "600",
+              cursor: "pointer",
+              marginTop: "5px",
+              transition: "background-color 0.3s",
+            }}
+            onMouseOver={(e) => (e.target.style.backgroundColor = "#0d8a7a")}
+            onMouseOut={(e) => (e.target.style.backgroundColor = "#139c8a")}
+          >
+            Zarejestruj się
+          </button>
+
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "14px",
+              marginTop: "10px",
+              color: "#666",
+            }}
+          >
+            Masz już konto?{" "}
+            <Link
+              href="/login"
+              style={{
+                color: "#139c8a",
+                fontWeight: "bold",
+                textDecoration: "none",
+              }}
+            >
+              Zaloguj się
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

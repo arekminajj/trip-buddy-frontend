@@ -1,6 +1,7 @@
+import AccountEditForm from "./AccountEditForm";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import AccountEditForm from "./AccountEditForm";
 
 export default async function AccountEditPage() {
   const session = await getServerSession(authOptions);
@@ -18,5 +19,20 @@ export default async function AccountEditPage() {
 
   const user = await res.json();
 
-  return <AccountEditForm user={user} accessToken={session.accessToken} />;
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundImage: 'url("/images/editaccountbg.avif")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        padding: "0px 20px",
+      }}
+    >
+      <AccountEditForm user={user} accessToken={session.accessToken} />
+    </div>
+  );
 }

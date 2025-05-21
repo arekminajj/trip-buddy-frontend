@@ -1,11 +1,18 @@
 import TripCard from "./components/TripCard";
 
 export default async function HomePage() {
-  const data = await fetch(process.env.BASE_URL + "/api/trip")
-  const trips = await data.json()
+  const data = await fetch(process.env.BASE_URL + "/api/trip");
+  const trips = await data.json();
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div
+      style={{
+        padding: "20px",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #e0f7fa, #e8f5e9)",
+        transition: "background 0.5s ease-in-out",
+      }}
+    >
       <h1
         style={{
           fontSize: "40px",

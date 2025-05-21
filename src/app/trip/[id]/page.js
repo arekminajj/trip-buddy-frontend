@@ -1,12 +1,25 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
+
 import JoinTripButton from "./joinTripButton";
 import LeaveTripButton from "./leaveTripButton";
 import DeleteTripButton from "./deleteTripButton";
+import EditTripButton from "./editTripButton";
 import formatDate from "@/app/common/formatDate";
+import LeafletMap from "./LeafletMap";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
-import Link from "next/link";
+
+async function getCoordinates(location) {
+  const res = await fetch(
+    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
+  );
+  const data = await res.json();
+  if (data?.[0]) {
+    return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+  }
+  return null;
+}
 
 export default async function TripDetailPage({ params }) {
   const session = await getServerSession(authOptions);
@@ -49,12 +62,29 @@ export default async function TripDetailPage({ params }) {
     );
   }
 
+  const now = new Date();
+  const start = new Date(trip.startDate);
+  const end = new Date(trip.endDate);
+  const isOngoingOrPast = now >= start;
+
   const currentUser = await currentUserRes.json();
   const isOwner = currentUser.id === ownerDetails?.id;
   const isMember = trip.members?.some((m) => m.id === currentUser.id);
 
+  const startCoords = await getCoordinates(trip.startLocation);
+  const endCoords = await getCoordinates(trip.endLocation);
+
   return (
-    <div style={{ padding: "20px" }}>
+    <div
+      style={{
+        padding: "40px 20px",
+        minHeight: "100vh",
+        backgroundImage: `url("/images/tripdetailsbg.avif")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <h1
         style={{
           fontSize: "40px",
@@ -62,6 +92,7 @@ export default async function TripDetailPage({ params }) {
           textAlign: "center",
           fontFamily: "Arial, sans-serif",
           fontWeight: "bold",
+          fontStyle: "italic",
           color: "#000",
           textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
           letterSpacing: "0.5px",
@@ -96,48 +127,61 @@ export default async function TripDetailPage({ params }) {
           />
         </div>
 
-        <p>
-          <strong>Opis:</strong> {trip.description}
-        </p>
-        <p>
-          <strong>📅 Termin:</strong> {formatDate(trip.startDate)} -{" "}
-          {formatDate(trip.endDate)}
-        </p>
-        <p>
-          <strong>💵 Cena:</strong> {trip.price} PLN
-        </p>
-        <p>
-          <strong>🧍‍♂️ Maksymalna liczba uczestników:</strong> {trip.maxMembers}
-        </p>
-        <p>
-          <strong>📍 Trasa:</strong> {trip.startLocation} → {trip.endLocation}
-        </p>
+        <div
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            padding: "10px",
+            borderRadius: "12px",
+            marginTop: "20px",
+            fontFamily: "Arial, sans-serif",
+            fontSize: "17px",
+            lineHeight: "2",
+            color: "#333",
+          }}
+        >
+          <p>
+            <strong>Opis:</strong> {trip.description}
+          </p>
+          <p>
+            <strong>📅 Termin:</strong> {formatDate(trip.startDate)} -{" "}
+            {formatDate(trip.endDate)}
+          </p>
+          <p>
+            <strong>💵 Cena:</strong> {trip.price} PLN
+          </p>
+          <p>
+            <strong>🧍‍♂️ Maksymalna liczba uczestników:</strong> {trip.maxMembers}
+          </p>
+          <p>
+            <strong>📍 Trasa:</strong> {trip.startLocation} → {trip.endLocation}
+          </p>
+        </div>
 
-        <div style={{ marginTop: "20px" }}>
+        {startCoords && endCoords && (
+          <LeafletMap startCoords={startCoords} endCoords={endCoords} />
+        )}
+
+        <div
+          style={{
+            marginTop: "25px",
+            display: "flex",
+            justifyContent: "center",
+            gap: "60px",
+            flexWrap: "wrap",
+          }}
+        >
           {isOwner ? (
             <>
-              <Link href={`/trip/edit/${trip.id}`} passHref>
-                <button
-                  style={{
-                    padding: "10px 20px",
-                    backgroundColor: "#2183f2 ",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Edytuj wycieczkę
-                </button>
-              </Link>
-              <DeleteTripButton tripId={tripId} />
+              {new Date(trip.startDate) > new Date() && (
+                <EditTripButton tripId={trip.id} width="180px" height="45px" />
+              )}
+              <DeleteTripButton tripId={tripId} width="180px" height="45px" />
             </>
           ) : isMember ? (
-            <LeaveTripButton tripId={tripId} />
-          ) : (
-            <JoinTripButton tripId={tripId} />
-          )}
+            <LeaveTripButton tripId={tripId} width="220px" height="45px" />
+          ) : new Date(trip.startDate) > new Date() ? (
+            <JoinTripButton tripId={tripId} width="220px" height="45px" />
+          ) : null}
         </div>
 
         {ownerDetails && (
@@ -145,20 +189,42 @@ export default async function TripDetailPage({ params }) {
             style={{
               marginTop: "30px",
               paddingTop: "20px",
-              borderTop: "1px solid #ccc",
+              borderTop: "3px solid #139c8a",
             }}
           >
-            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>
+            <h2
+              style={{
+                fontSize: "22px",
+                marginBottom: "10px",
+                color: "#333",
+                fontWeight: "600",
+              }}
+            >
               Organizator wycieczki
             </h2>
             <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-              <Image
-                src={ownerDetails.profilePictureURI || "/images/avatar.jpg"}
-                alt="owner pfp"
-                width={100}
-                height={100}
-                style={{ borderRadius: "50%", objectFit: "cover" }}
-              />
+              <div
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  flexShrink: 0,
+                }}
+              >
+                <Image
+                  src={ownerDetails.profilePictureURI || "/images/avatar.jpg"}
+                  alt="Avatar organizatora"
+                  width={80}
+                  height={80}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+
               <div>
                 <p>
                   <strong>{trip.owner.userName}</strong>
@@ -178,10 +244,17 @@ export default async function TripDetailPage({ params }) {
             style={{
               marginTop: "30px",
               paddingTop: "20px",
-              borderTop: "1px solid #ccc",
+              borderTop: "3px solid #139c8a",
             }}
           >
-            <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>
+            <h2
+              style={{
+                fontSize: "22px",
+                marginBottom: "10px",
+                color: "#333",
+                fontWeight: "540",
+              }}
+            >
               Uczestnicy wyprawy
             </h2>
             <ul style={{ listStyle: "none", padding: 0 }}>
@@ -191,19 +264,35 @@ export default async function TripDetailPage({ params }) {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    marginBottom: "12px",
-                    gap: "12px",
+                    marginBottom: "14px",
+                    gap: "14px",
                     color: "#333",
                   }}
                 >
-                  <Image
-                    src={member.profilePictureURI || "/images/avatar.jpg"}
-                    alt={`Avatar of ${member.userName || member.email}`}
-                    width={40}
-                    height={40}
-                    style={{ borderRadius: "50%", objectFit: "cover" }}
-                  />
-                  <span>{member.userName || member.email}</span>
+                  <div
+                    style={{
+                      width: "48px",
+                      height: "48px",
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Image
+                      src={member.profilePictureURI || "/images/avatar.jpg"}
+                      alt={`Avatar of ${member.userName || member.email}`}
+                      width={48}
+                      height={48}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                  <span style={{ fontSize: "16px", fontWeight: "500" }}>
+                    {member.userName || member.email}
+                  </span>
                 </li>
               ))}
             </ul>
