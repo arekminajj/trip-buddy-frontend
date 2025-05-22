@@ -2,10 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
 import formatDate from "../common/formatDate";
 
-export default function TripCard({ trip }) {
+export default function TripCard({ trip, currentUserId }) {
   const router = useRouter();
 
   const now = new Date();
@@ -14,12 +13,18 @@ export default function TripCard({ trip }) {
   const isPast = end < now;
   const isOngoing = start <= now && now <= end;
 
+  const isOwner = trip.owner?.id === currentUserId;
+  const isParticipant = trip.members?.some((m) => m.id === currentUserId);
+  let roleLabel = null;
+  if (isOwner) roleLabel = "👑 Organizator";
+  else if (isParticipant) roleLabel = "🙋‍♂️ Uczestnik";
+
   return (
     <div
       style={{
         width: "100%",
         maxWidth: "700px",
-        height: "490px",
+        height: "470px",
         margin: "0 auto 32px auto",
         border: "1px solid #ddd",
         borderRadius: "16px",
@@ -74,12 +79,11 @@ export default function TripCard({ trip }) {
         />
       </div>
 
-      {/* Tytuł na górze osobno */}
       <h2
         style={{
           fontSize: "22px",
           fontWeight: "600",
-          margin: "20px 20px 0 20px", // padding po bokach i na górze
+          margin: "17px 10px 0 20px",
           lineHeight: "1.4",
           wordBreak: "break-word",
         }}
@@ -87,7 +91,6 @@ export default function TripCard({ trip }) {
         {trip.name}
       </h2>
 
-      {/* Reszta układu w kolumnach */}
       <div
         style={{
           padding: "20px",
@@ -99,9 +102,8 @@ export default function TripCard({ trip }) {
           justifyContent: "space-between",
         }}
       >
-        {/* Lewa część – data + opis */}
         <div style={{ flex: 1.4 }}>
-          <p style={{ margin: "8px 0" }}>
+          <p style={{ margin: "0px 0" }}>
             📅 <strong>Data:</strong> {formatDate(trip.startDate)} -{" "}
             {formatDate(trip.endDate)}
           </p>
@@ -121,20 +123,27 @@ export default function TripCard({ trip }) {
           </div>
         </div>
 
-        {/* Prawa część – lokalizacja na wysokości daty */}
         <div
           style={{
             flex: 1,
             fontSize: "14px",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "flex-start", // ważne!
+            justifyContent: "flex-start",
           }}
         >
-          <p style={{ margin: "8px 0" }}>
+          <p style={{ margin: "0px 0" }}>
             📍 <strong>Lokalizacja:</strong> {trip.startLocation} -{" "}
             {trip.endLocation}
           </p>
+
+          {roleLabel && (
+            <p
+              style={{ margin: "4px 0", fontStyle: "italic", color: "#139c8a" }}
+            >
+              {roleLabel}
+            </p>
+          )}
         </div>
       </div>
 
