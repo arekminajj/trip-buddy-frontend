@@ -12,7 +12,9 @@ import { getServerSession } from "next-auth/next";
 
 async function getCoordinates(location) {
   const res = await fetch(
-    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`
+    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+      location
+    )}`
   );
   const data = await res.json();
   if (data?.[0]) {

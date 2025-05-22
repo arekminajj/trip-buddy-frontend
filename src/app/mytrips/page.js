@@ -43,8 +43,7 @@ export default async function MyTripsPage() {
     <div
       style={{
         minHeight: "100vh",
-        backgroundImage:
-          "url('/images/mytripsbg.avif')",
+        backgroundImage: "url('/images/mytripsbg.avif')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

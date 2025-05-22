@@ -12,7 +12,10 @@ export async function POST(req) {
 
     if (!res.ok) {
       const errorData = await res.json();
-      return NextResponse.json({ error: errorData.error || "Wystąpił błąd podczas rejestracji" }, { status: 400 });
+      return NextResponse.json(
+        { error: errorData.error || "Wystąpił błąd podczas rejestracji" },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json({ success: true });
