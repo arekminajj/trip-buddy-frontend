@@ -81,7 +81,7 @@ export default function BrowseTripsPage() {
           borderRadius: "16px",
           padding: "20px",
           boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-          maxWidth: "1700px",
+          maxWidth: "1900px",
           margin: "0 auto",
         }}
       >
