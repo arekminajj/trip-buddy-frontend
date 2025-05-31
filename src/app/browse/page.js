@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { useSession } from "next-auth/react";
 import TripCard from "../components/TripCard";
 
 export default function BrowseTripsPage() {
+  const { data: session } = useSession();
   const [trips, setTrips] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState(null);
   const [filter, setFilter] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -14,10 +16,29 @@ export default function BrowseTripsPage() {
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/trip");
-        if (!res.ok) throw new Error("Nie udało się pobrać wycieczek");
-        const data = await res.json();
+        const tripRes = await fetch(
+          process.env.NEXT_PUBLIC_BASE_URL + "/api/trip"
+        );
+        if (!tripRes.ok) throw new Error("Nie udało się pobrać wycieczek");
+        const data = await tripRes.json();
         setTrips(data);
+
+        // Jeśli jesteś zalogowany – pobierz ID użytkownika
+        if (session?.accessToken) {
+          const userRes = await fetch(
+            process.env.NEXT_PUBLIC_BASE_URL + "/api/user/current",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${session.accessToken}`,
+              },
+            }
+          );
+          if (userRes.ok) {
+            const user = await userRes.json();
+            setCurrentUserId(user.id);
+          }
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -26,7 +47,7 @@ export default function BrowseTripsPage() {
     };
 
     fetchTrips();
-  }, []);
+  }, [session]);
 
   const filteredTrips = trips.filter((trip) => {
     const searchTerm = filter.toLowerCase();
@@ -60,7 +81,7 @@ export default function BrowseTripsPage() {
           borderRadius: "16px",
           padding: "20px",
           boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-          maxWidth: "1700px",
+          maxWidth: "1900px",
           margin: "0 auto",
         }}
       >
@@ -95,7 +116,6 @@ export default function BrowseTripsPage() {
             flexWrap: "wrap",
           }}
         >
-          {/* pola filtrów */}
           <input
             type="text"
             placeholder="Filtruj po lokalizacji (np. Tatry, Ustka...)"
@@ -126,7 +146,6 @@ export default function BrowseTripsPage() {
           />
         </div>
 
-        {/* TRIPS */}
         {error ? (
           <p style={{ color: "red", textAlign: "center" }}>{error}</p>
         ) : isLoading ? (
@@ -142,7 +161,11 @@ export default function BrowseTripsPage() {
             }}
           >
             {filteredTrips.map((trip) => (
-              <TripCard key={trip.id} trip={trip} />
+              <TripCard
+                key={trip.id}
+                trip={trip}
+                currentUserId={currentUserId}
+              />
             ))}
           </div>
         ) : (
